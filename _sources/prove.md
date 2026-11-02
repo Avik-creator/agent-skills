@@ -37,3 +37,14 @@ Read in full from the downloaded `plugins-main` folder: `create-verification-ski
 ## Facts checked
 - `codex exec` and `claude -p` checked with `--help` on 2026-11-03. Cursor's CLI was not installed, so it is not named.
 - `scripts/keys`, `scripts/pre-push` and `scripts/install-hook` tested in throwaway repos on 2026-11-03: lock and check, edited and added keys, subfolders and linked worktrees, each receipt result, self-checked runs, skipped pushes, branch deletes and tags, a missing `.prove/`, and real pushes chained with the `ship` hook in both install orders.
+
+## Changed 2026-11-03, after review and at the author's request
+- **Global hooks:** the per-repo installer is gone. The library's `_hooks/` folder is set as git's global `core.hooksPath` by `_hooks/install`, which `prove`, `ship` and `deliver` run without asking, at the author's request ("I don't want any check to be missed"). Its `pre-push` runs the ship and prove checks and then the repo's own hook; every other hook name passes through to the repo's own hook.
+- **Fixes from a fresh-agent review, each tested in throwaway repos:**
+  - the gate keys on the remote ref, so `git push origin HEAD` and pushing a raw commit are checked (ship's hook had the same gap)
+  - one lock per task (`keys lock <task>`); a deleted keys folder, an empty task and a bad task name are refused
+  - the receipt names its task; `checker` is an allow-list (subagent, script, session, cli:<name>); an unagreed `not covered` line blocks PROVED; Windows line endings are read
+  - the main checkout is found with `--show-toplevel`, or the first `worktree list` entry from a linked worktree, so a separate git folder works
+  - `scripts/init` creates `.prove/` and adds it to the exclude file once
+  - the pass-through hook is silent when git runs it before a repo exists (during `git init` and `git clone`)
+- **Text:** a `script` checker counts only for checks locked with the keys; a prototype is a structure key, never a pixel key; snapshots are taken before the lock; the smoke test is keyed to the base commit; `verifier.md` changes only through the drift rule, reported to the user.

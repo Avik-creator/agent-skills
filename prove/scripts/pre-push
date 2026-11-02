@@ -1,9 +1,13 @@
 #!/bin/sh
-# Prove check: block a push unless its commit has a passing prove receipt and the answer keys are unchanged.
-# Receipt: .prove/runs/<run>/receipt.md with lines "head <sha>", "checker <how>", "result <verdict>". PROVE_SKIP=1 skips one push.
+# Prove check: block a push unless its commit has a passing receipt whose answer keys are unchanged; PROVE_SKIP=1 skips one push.
 
-common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
-dir="$(cd "$common/.." && pwd)/.prove"
+# The main checkout: this one, or the first worktree listed when this is a linked worktree.
+if [ "$(git rev-parse --absolute-git-dir)" = "$(git rev-parse --path-format=absolute --git-common-dir)" ]; then
+  root=$(git rev-parse --show-toplevel)
+else
+  root=$(git worktree list --porcelain | sed -n '1s/^worktree //p')
+fi
+dir="$root/.prove"
 here=$(dirname "$0")
 
 if [ "${PROVE_SKIP:-}" = 1 ]; then
@@ -12,43 +16,52 @@ if [ "${PROVE_SKIP:-}" = 1 ]; then
 fi
 
 if [ ! -d "$dir" ]; then
-  echo "prove: no $dir folder, so nothing can show this push was proved. Set prove up, or push with PROVE_SKIP=1 once." >&2
+  echo "prove: no $dir folder, so nothing shows this push was proved. Run prove, or push with PROVE_SKIP=1 once." >&2
   exit 1
 fi
 
 status=0
-if [ -d "$dir/keys" ] && ! "$here/keys" check; then
+block() {
+  echo "prove: $1" >&2
   status=1
-fi
+}
 
 while read -r lref lsha rref rsha; do
-  case "$lref" in refs/heads/*) ;; *) continue ;; esac
+  # The remote ref says what is being updated; the local ref can be HEAD or a commit.
+  case "$rref" in refs/heads/*) ;; *) continue ;; esac
   case "$lsha" in *[!0]*) ;; *) continue ;; esac
-  branch=${lref#refs/heads/}
+  branch=${rref#refs/heads/}
   short=$(git rev-parse --short "$lsha")
 
   # Run folders start with a timestamp, so the last match is the newest run.
-  rec=$(grep -l -x "head $lsha" "$dir"/runs/*/receipt.md 2>/dev/null | tail -n 1)
+  rec=$(grep -l "^head $lsha" "$dir"/runs/*/receipt.md 2>/dev/null | tail -n 1)
   if [ -z "$rec" ]; then
-    echo "prove: no prove run for $branch at $short. Run prove on this commit." >&2
-    status=1
+    block "no prove run for $branch at $short. Run prove on this commit."
     continue
   fi
 
-  result=$(sed -n 's/^result //p' "$rec" | head -n 1)
-  checker=$(sed -n 's/^checker //p' "$rec" | head -n 1)
+  field() { tr -d '\r' < "$rec" | sed -n "s/^$1 //p" | head -n 1; }
+  result=$(field result)
+  checker=$(field checker)
+  task=$(field task)
+
   case "$result" in
     PROVED)
-      if [ "$checker" = self ]; then
-        echo "prove: $rec was self-checked, which never counts as PROVED." >&2
-        status=1
+      case "$checker" in
+        subagent|script|session|cli:?*) ;;
+        *) block "$rec has checker '${checker:-none}'; PROVED needs subagent, script, session or cli:<name>."; continue ;;
+      esac
+      if [ -z "$task" ]; then
+        block "$rec has no task line, so its answer keys can't be checked."
+        continue
+      fi
+      "$here/keys" check "$task" || status=1
+      if tr -d '\r' < "$rec" | grep '^not covered:' | grep -qv '(agreed)'; then
+        block "$rec leaves flows not covered that the user didn't agree to."
       fi
       ;;
     NO-SURFACE) ;;
-    *)
-      echo "prove: the last run for $branch at $short says ${result:-no result} ($rec)." >&2
-      status=1
-      ;;
+    *) block "the last run for $branch at $short says ${result:-no result} ($rec)." ;;
   esac
 done
 

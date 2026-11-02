@@ -49,7 +49,7 @@ A verifier nobody ran is a draft. A check that never failed proves nothing.
 
 ## When the app changes
 A renamed button, a moved route or a new port makes the verifier describe last month's app. When a step fails for a reason unrelated to the change, decide which is wrong:
-- **Drift** (the app changed on purpose): fix the step, and prove the fix live.
+- **Drift** (the app changed on purpose): fix the step, prove the fix live, and tell the user what changed. This is the only way `verifier.md` changes during a build.
 - **A product bug:** report it with evidence, and leave the step as it is.
 
 Write any command that finally worked after a retry into `verifier.md` at once. Never edit an answer key here; that is the user's call.
