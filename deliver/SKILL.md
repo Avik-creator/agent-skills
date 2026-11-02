@@ -71,7 +71,7 @@ If the snapshot check (item 2) or the failing proof (item 3) still fails after o
 Run `prove` on the committed head. Its rules decide the fix rounds for a BROKEN flow. BLOCKED or UNPROVEN means stop and tell the user what is missing. Why: a weaker check that passes reads as proof.
 
 ## 6. Review
-Run `review` on the branch. If its fixes change code, commit them and run `prove` again. Why: the push gate needs a receipt for the exact commit being pushed.
+Run `review` on the branch. If its fixes change code, make all of them and commit them, then run `prove` once on the new head. Why: the push gate needs a receipt for the exact commit being pushed.
 
 ## 7. Open the PR
 Run `ship`. Its commit plan, interview and push are the last questions, kept on purpose. The user may skip the interview, as `ship` says; the agent never skips it unasked. Any commit made inside `ship` (a bar-guard fix, an interview fix) means `prove` runs again before the push. For a visual change, the before and after screenshots from the prove run go in the PR's before-and-after table, after a yes. Stop at the open PR; the user merges.

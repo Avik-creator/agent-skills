@@ -45,3 +45,4 @@ not covered: <flow> - <why> - <what would unlock it> [(agreed)]
 - **A screen:** numbered screenshots or a recording of the flow, at each width the plan names.
 - **An API or job:** the real request, response and a stored-state query in one text file (`... 2>&1 | tee runs/<run>/flow-<n>.txt`).
 - **Always:** a read-back of the data that should have changed, not only a success message.
+- Name evidence files so no two differ only in letter case (use the flow number: `flow-3-go.json` and `flow-4-go-caps.json`, never `flow-go.json` beside `flow-GO.json`). Why: macOS and Windows file systems ignore case, so one file overwrites the other.
