@@ -22,7 +22,7 @@ Write only after a yes. Why: the methods decide what the verifier can ever catch
 
 ## 3. Write `verifier.md`
 Sections, each from what step 1 found:
-- **Launch:** the exact command that starts the app from an empty data folder, migrations and seed data included, and how to tell it is ready to use. A process that answers is not ready; a database can pass a health check while its setup scripts still run.
+- **Launch:** the exact command that starts the app from an empty data folder, migrations and seed data included, and how to tell it is ready to use. A process that answers is not ready; a database can pass a health check while its setup scripts still run. Prefer the production build for checks: a dev server may write files into the repo, shows dev-only overlays, and spoils pixel diffs.
 - **Doctor:** one read-only check that this copy is worth driving: process up, right build, port owned by this run, sign-in valid. Run it first whenever anything looks off.
 - **Drive:** one section per surface, with real commands and stable handles (ARIA labels, test ids, route paths, prompt strings), never screen positions.
 - **Evidence:** what to capture and where it goes (`.prove/runs/<run>/`). The real user path, not internal setters or test-only endpoints. The action and the resulting state, plus side effects.

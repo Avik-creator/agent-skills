@@ -37,3 +37,4 @@ Read in full from the downloaded `plugins-main` folder: `principle-sequence-veri
 
 ## Changed 2026-11-03, after merge
 - The quick start is now a table: each step, the skills it calls, what happens, what it hands on, and when it stops for the user. At the author's request.
+- After a test run by a Cursor agent on a real feature (a blog tag filter), 2026-11-03: step 1 reads the real data as well as the code; step 2 creates the branch before the prototype, keeps the prototype running until the user picks, and checks its links first.

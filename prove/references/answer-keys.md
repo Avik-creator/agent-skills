@@ -20,6 +20,7 @@ Read when choosing or saving an answer key. An answer key says what right looks 
 - Put each task's keys in `.prove/keys/<task>/`: the proof plan (`plan.md`, one row per check: proves, surface, key and rung, check, pass signal), plus snapshots and expected outputs.
 - Take every snapshot before the lock, from a known good state: the base commit, a design export, or the prototype the user approved. Never from the change being checked. Why: a snapshot added after the lock changes the keys, and the run stops as BLOCKED.
 - Scripted checks that should count as the checker go in `keys/<task>/checks/`, before the lock.
+- An expected output worked out by the code under test is not a key. Generate it with a standalone script that reads the raw data itself and imports no project code, and save its output before the lock. For a list, the check is equality (the same items, and the same order when order is part of the goal), never "each shown item matches". Why: a helper bug would grade itself, and a subset check passes a list that dropped items.
 - Write down the differences that are allowed (new ids, timestamps, a bug the change fixes) next to the snapshot, and keep the list short. Why: a comparison that ignores too much hides real breaks.
 - Made-up test data only. Never real names, emails or records.
 - After the user approves, run `scripts/keys lock <task>`. Each task has its own lock, so approving one task never approves an edit to another.
@@ -30,6 +31,7 @@ Read when choosing or saving an answer key. An answer key says what right looks 
 - **New screen against a design export:** the threshold the user chose, 3% by default.
 - Freeze fonts, data, the clock, animations and the browser version, or the number is noise.
 - A pass at one width says nothing about the others.
+- **New UI added to an existing screen** (a row above a list, a banner): a whole-page diff counts every shifted pixel. Screenshot the unchanged parts as elements and compare them at 0%; list the new part as the allowed difference, checked by its own flow.
 
 ## When the app and a key disagree
 Find out which is wrong from the commit that changed the behaviour. Report it to the user with the evidence. Only the user changes a key, and the task is locked again after their yes.

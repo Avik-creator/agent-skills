@@ -14,7 +14,7 @@ Each step calls these skills, in this order. Why: the user should know what runs
 |---|---|---|---|---|
 | 1. Ask | `design-docs` (interview.md, proof.md); `prove` (setup.md) when the repo has no verifier | Reads the repo, asks one decision at a time, settles each goal's proof | The decided list and the Proof table | Each question (this step is the asking) |
 | 2. Prototype | `prototype` | Builds screen variants or a clickable logic demo, unless the rule in step 2 skips it | The chosen variant and its scenarios | The user picks a variant |
-| 3. Play back | `prove` (`scripts/init`, `scripts/keys`) | One message with the whole plan; after a yes, creates the branch, saves and locks the keys | Locked keys in `.prove/keys/<task>/` | The user confirms |
+| 3. Play back | `prove` (`scripts/init`, `scripts/keys`) | One message with the whole plan; after a yes, creates the branch if step 2 didn't, saves and locks the keys | Locked keys in `.prove/keys/<task>/` | The user confirms |
 | 4. Build and test | `coding` and `testing`; `go`, `database`, `security`, `observability` alongside where `which-skill` says | Small steps, each one checked, committed in order | Commits on the branch | A change outside the stop-and-ask list, or a key looks wrong |
 | 5. Prove | `prove`, with `automation` to drive a browser | Drives every touched flow, a fresh agent gives the verdict, writes the receipt | A PROVED receipt for the commit | BLOCKED, UNPROVEN, or the fix rounds run out |
 | 6. Review | `review` | A fresh reviewer proves each finding; fixes are committed, then `prove` runs again | A clean review and a new receipt | A fix needs a schema, API, security or user-visible change |
@@ -25,6 +25,7 @@ The user merges. Nothing in this workflow merges, deploys or pushes to the defau
 ## 1. Ask
 - First turn on the global hooks, as `prove` step 1 says. Why: every later push is checked, with no repo left out.
 - Read the repo first: code, routes, docs, configs, the test tools that exist. Ask only what the repo can't answer. Why: the user's time goes on decisions, not facts.
+- Read the data the feature runs on too, from the repo or a local copy (content files, fixtures, a local database): count it, and look for duplicates, case or spelling variants, and outliers. Never a production or shared system, and never copy real records into keys or prototypes. Why: the data often decides the design (200 categories make a different screen from 10), and the code doesn't show it.
 - Run the discussion as `design-docs` does in its `interview.md`: one decision at a time, the highest-risk first, each with a recommended answer. Why: a decision asked before the one it depends on gets undone.
 - For every goal, settle its proof as `design-docs` does in its `proof.md`: surface, answer key and its rung, check, and pass signal.
 - No `.prove/verifier.md` in this repo: the method choice from prove's `setup.md` is one of the questions. Why: setting it up mid-build would mean asking then.
@@ -36,7 +37,7 @@ Inside this workflow a prototype is the default, decided by this rule:
 - **Prototype:** any screen or user flow, and any state model or business rule with more than two states.
 - **Skip,** with the reason said: a bug fix, a refactor, a config change, or backend plumbing whose shape is obvious.
 
-Name the choice in one line ("prototype: UI, the question is X" or "skip: bug fix"); the user can overrule it. Build it with the `prototype` skill. The approved prototype becomes an answer key for structure and behaviour: which parts are on the page, in what order, where each step leads, and the scenarios with their expected results. It is rough on purpose, so pixel checks use a design export or the base commit, never the prototype. Why: clicking through a real draft settles what right looks like better than any description.
+Name the choice in one line ("prototype: UI, the question is X" or "skip: bug fix"); the user can overrule it. Name the work branch in the prototype's one-line plan; after its yes, create the branch, then build it with the `prototype` skill. Why: the host-page wiring is an edit to a real file, and it must never sit on the default branch. For a UI prototype, start the app as a process that outlives your turn, open every link yourself before sending it, send the start command with the links, and keep it running until the user picks. Why: a link that is dead when the user clicks it wastes a turn. The approved prototype becomes an answer key for structure and behaviour: which parts are on the page, in what order, where each step leads, and the scenarios with their expected results. It is rough on purpose, so pixel checks use a design export or the base commit, never the prototype. Why: clicking through a real draft settles what right looks like better than any description.
 
 ## 3. Play back
 Send one message with everything:
@@ -46,7 +47,7 @@ Send one message with everything:
 - the stop-and-ask list, and the choices left to the agent (names, file layout, test framework)
 - numbered defaults the user can veto, such as "pixel threshold 3% at 375, 768, 1440"
 
-Write nothing until the user confirms. A hedged answer ("I guess", "probably") is not a yes. Then run prove's `scripts/init`, save the keys in `.prove/keys/<task>/` (`plan.md`, base-commit and design snapshots, the prototype notes, locked checks), and run `scripts/keys lock <task>`. Why: a key saved after the lock blocks the run, and a locked key can't be lowered quietly. The yes also covers creating the branch and the verifier.
+Write nothing until the user confirms. A hedged answer ("I guess", "probably") is not a yes. Then run prove's `scripts/init`, save the keys in `.prove/keys/<task>/` (`plan.md`, base-commit and design snapshots, the prototype notes, locked checks), and run `scripts/keys lock <task>`. Why: a key saved after the lock blocks the run, and a locked key can't be lowered quietly. The yes also covers the verifier, and the branch if step 2 didn't create it.
 
 ## 4. Build and test
 - Work on a branch, never the default branch. Follow `coding`, with `go`, `database` or `security` alongside where `which-skill` says, and write the tests with `testing`. Why: those skills own the rules for each kind of code.
