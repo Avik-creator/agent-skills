@@ -1,6 +1,6 @@
 ---
 name: review
-description: Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. Checks the change against what it was meant to do (decisions agreed with the user, a design write-up, the PR or issue) and against the repo's own rules. Runs on its own before handing over any change that affects behaviour, and on request for a branch, commit range, pull request or pasted diff. Use when finishing a code, SQL, migration or config change, or when the user asks to review, check or audit a diff, branch or PR, says "review since X", "look over this PR" or "is this ready to merge", or asks for a strict, deep, harsh or thermo-nuclear code quality review. Not for checking a change in a real browser - use automation; not for writing tests - use testing; not for a repo-wide cleanup - use refactor.
+description: Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. Checks the change against what it was meant to do (decisions agreed with the user, a design write-up, the PR or issue) and against the repo's own rules. Runs on its own before handing over any change that affects behaviour, and on request for a branch, commit range, pull request or pasted diff. Use when finishing a code, SQL, migration or config change, or when the user asks to review, check or audit a diff, branch or PR, says "review since X", "look over this PR", "what could this break" or "is this ready to merge", or asks for a strict, deep, harsh or thermo-nuclear code quality review. Not for checking a change in a real browser - use automation; not for writing tests - use testing; not for a repo-wide cleanup - use refactor.
 ---
 
 # Review
@@ -43,10 +43,11 @@ A review is worth what it proves. A fresh reviewer reads what the code does, not
 ### 4. Check the proof
 - Re-run each command the reviewer cites. A proof that doesn't reproduce moves the finding to Couldn't prove. Why: a wrong reviewer sounds as sure as a right one.
 - If you think a finding is wrong, show your proof and list it as Disputed with the reason. Never drop it quietly.
+- On a PR, only now read its existing comments, as [breakage.md](references/breakage.md) says.
 - Then remove the copies you made (`git worktree remove --force <path>`, only those paths). Why: each one is a full checkout left on disk.
 
 ### 5. Report
-Use the format below, in chat. Zero findings is a valid result; don't invent one.
+Use the format below, in chat. Zero findings is a valid result; don't invent one. Leave out an empty section.
 
 ### 6. After the report
 - **Your own work**: fix every Blocker and Fix, then re-run each proof, which should now pass. Keep a proof test as the regression test in your change. Why: it is a test already seen failing before the fix. Large fixes get a fresh review of the new code. Ask before a fix that changes a schema, an API, security behaviour or what users see.
@@ -77,9 +78,8 @@ Disputed
 ```
 
 - **Blocker**: broken behaviour, a security hole, or data loss. **Fix**: any other proven finding. Blockers first.
-- `<check>` is one of correctness, security, performance, tests, architecture, readability, standards, spec.
+- `<check>` is one of correctness, compatibility, security, performance, tests, architecture, readability, standards, spec.
 - Mark a defect that already existed at the base as `(pre-existing)`. Why: it is real, but not this change's fault.
-- Leave out an empty section.
 
 ## Example
 
@@ -91,7 +91,7 @@ User: "Review PR 214." Its description says "retry failed webhooks up to 3 times
 ## References
 
 - [references/reviewer-brief.md](references/reviewer-brief.md) - read before briefing the reviewer.
-- [references/checks.md](references/checks.md) - the checks and smells; the reviewer reads it.
+- [references/checks.md](references/checks.md) and [references/breakage.md](references/breakage.md) - the checks, the smells, and what the change breaks outside the diff; the reviewer reads both.
 - [references/proof.md](references/proof.md) - how to prove a finding, and mutating safely on a copy.
 - [references/feedback.md](references/feedback.md) - read before posting on someone else's PR.
 - [references/dependencies.md](references/dependencies.md) - read when the change adds or upgrades a dependency.

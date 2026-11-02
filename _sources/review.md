@@ -29,3 +29,26 @@ From `thermo-nuclear-code-quality-review` in [cursor/plugins](https://github.com
   - "Be ambitious, restructure the codebase, go for it". Here strict findings are proposals applied after a yes.
   - Pushing logic into a new abstraction, state machine or policy object by default. Here an abstraction is a remedy only when it removes branches or copies that exist now.
 - **Changed:** a half-applied update that can actually happen is reported as a correctness Finding, not as Structure.
+
+## Added 2026-11-02: breakage outside the diff (references/breakage.md)
+From two skills in [cursor/plugins](https://github.com/cursor/plugins), both MIT: `thermos/skills/thermo-nuclear-review` (Copyright (c) 2026 Cursor) and `pstack/skills/blast-radius` (Copyright (c) 2026 Lauren Tan). Both were read in full from the downloaded `plugins-main` folder, which has no git history.
+- **Taken from thermo-nuclear-review:**
+  - developer-setup breakage (environment variables, where secrets are read, ports, new required steps), and its exclusions (a new optional way to run something, a dependency the package manager installs)
+  - feature-gate leaks
+  - intended breakage: not reported, except when the author likely misses the impact or the change looks deliberately harmful
+  - never report a finding with the research unfinished
+  - read the PR discussion only after your own audit, then prove, dedupe and credit what it raised
+- **Taken from blast-radius:**
+  - find the one fact the change is safe because of, and prove it by running code
+  - where a search stops: data that carries names, the pinned library source, when code runs, and further downstream
+- **Changed:**
+  - These run on every review, not only on request, because they catch broken behaviour rather than style.
+  - The PR discussion is read by the main agent after the proof check, so the fresh reviewer never sees it.
+  - The findings use a new `compatibility` check and need proof like any other. proof.md gained rows for compatibility and for a feature-gate leak.
+- **Dropped:**
+  - the "EXTREMELY thorough, NOTHING can slip through" wording
+  - security-expert role-play
+  - the BugBot-specific steps
+  - blast-radius's five-level certainty ladder; proof.md's proof rule replaces it
+  - its multi-model `arena` run, and its Solid and React timing examples
+- The `thermos` skill, which launches both thermo reviews in parallel, adds nothing beyond the two-reviewer split in reviewer-brief.md.

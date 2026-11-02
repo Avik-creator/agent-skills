@@ -45,15 +45,17 @@ Rules it should follow: <rule files, with paths>. Where they disagree with
 <path to checks.md>, the rule files win.
 
 How to work:
-1. Read <path to checks.md>, <path to proof.md>, and the Signals section of <path to simplify.md>. On a strict review, also <path to strict.md>.
+1. Read <path to checks.md>, <path to breakage.md>, <path to proof.md>, and the Signals section of <path to simplify.md>. On a strict review, also <path to strict.md>.
 2. Run the tests and the linter in the copy. Report the commands and the results.
-3. Review the diff against the intent and the rules, and read the code it calls and is called by.
+3. Review the diff against the intent and the rules, and read the code it calls and is called by. Then look past the diff for what it breaks, as breakage.md says.
 4. Prove each finding as proof.md says. Anything you write goes in the copy.
 5. Run only against local or test setups. No production, no real third-party services.
+6. Don't read the PR's existing comments or reviews. Find things yourself.
 
 Send back, in this order, under 600 words:
 - Ran: each command and its result.
-- Findings: Blocker or Fix, [check], file:line, the defect in one line, and the proof:
+- Findings: Blocker (broken behaviour, a security hole or data loss) or Fix (any other proven defect),
+  [check], file:line, the defect in one line, and the proof:
   a command runnable from <copy path> and what it showed, or the rule quoted with its file:line.
   Add (pre-existing) when the proof also fails at the base.
 - Couldn't prove: the risk, why it can't be proven here, how to check it.
@@ -67,7 +69,7 @@ Zero findings is a valid result. Don't invent one.
 
 Above about 400 changed lines, send two briefs in parallel, each with its own copy:
 
-- **Intent reviewer**: the intent bullets, and the correctness, security and performance checks. Leave out the rule files and the smells.
+- **Intent reviewer**: the intent bullets, the correctness, security and performance checks, and breakage.md. Leave out the rule files and the smells.
 - **Rules reviewer**: the rule files, and the architecture, readability and test checks plus the smells, and strict.md on a strict review. Leave out the intent bullets.
 
 Why: each reviewer has less to hold, and one kind of finding can't crowd out the other.
