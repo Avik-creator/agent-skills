@@ -1,0 +1,55 @@
+#!/bin/sh
+# Prove check: block a push unless its commit has a passing prove receipt and the answer keys are unchanged.
+# Receipt: .prove/runs/<run>/receipt.md with lines "head <sha>", "checker <how>", "result <verdict>". PROVE_SKIP=1 skips one push.
+
+common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
+dir="$(cd "$common/.." && pwd)/.prove"
+here=$(dirname "$0")
+
+if [ "${PROVE_SKIP:-}" = 1 ]; then
+  echo "prove: check skipped (PROVE_SKIP=1)" >&2
+  exit 0
+fi
+
+if [ ! -d "$dir" ]; then
+  echo "prove: no $dir folder, so nothing can show this push was proved. Set prove up, or push with PROVE_SKIP=1 once." >&2
+  exit 1
+fi
+
+status=0
+if [ -d "$dir/keys" ] && ! "$here/keys" check; then
+  status=1
+fi
+
+while read -r lref lsha rref rsha; do
+  case "$lref" in refs/heads/*) ;; *) continue ;; esac
+  case "$lsha" in *[!0]*) ;; *) continue ;; esac
+  branch=${lref#refs/heads/}
+  short=$(git rev-parse --short "$lsha")
+
+  # Run folders start with a timestamp, so the last match is the newest run.
+  rec=$(grep -l -x "head $lsha" "$dir"/runs/*/receipt.md 2>/dev/null | tail -n 1)
+  if [ -z "$rec" ]; then
+    echo "prove: no prove run for $branch at $short. Run prove on this commit." >&2
+    status=1
+    continue
+  fi
+
+  result=$(sed -n 's/^result //p' "$rec" | head -n 1)
+  checker=$(sed -n 's/^checker //p' "$rec" | head -n 1)
+  case "$result" in
+    PROVED)
+      if [ "$checker" = self ]; then
+        echo "prove: $rec was self-checked, which never counts as PROVED." >&2
+        status=1
+      fi
+      ;;
+    NO-SURFACE) ;;
+    *)
+      echo "prove: the last run for $branch at $short says ${result:-no result} ($rec)." >&2
+      status=1
+      ;;
+  esac
+done
+
+exit $status

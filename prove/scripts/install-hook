@@ -1,0 +1,38 @@
+#!/bin/sh
+# Install the prove pre-push check into the current repo, keeping any existing pre-push hook.
+# Usage: install-hook <path to prove/scripts>. Touches only files inside .git/.
+set -eu
+
+src=${1:?usage: install-hook <path to prove/scripts>}
+[ -f "$src/pre-push" ] && [ -f "$src/keys" ] || { echo "install-hook: pre-push or keys missing in $src" >&2; exit 2; }
+
+if git config --get core.hooksPath >/dev/null; then
+  echo "install-hook: core.hooksPath is set to $(git config --get core.hooksPath); a hook manager owns the hooks." >&2
+  echo "Add .git/prove/pre-push there instead; nothing was changed." >&2
+  exit 3
+fi
+
+common=$(git rev-parse --path-format=absolute --git-common-dir)
+prove="$common/prove"
+hooks="$common/hooks"
+mkdir -p "$prove" "$hooks"
+cp "$src/pre-push" "$src/keys" "$prove/"
+chmod +x "$prove/pre-push" "$prove/keys"
+
+hook="$hooks/pre-push"
+if [ -f "$hook" ] && ! grep -q 'prove-wrapper' "$hook"; then
+  mv "$hook" "$prove/pre-push.previous"
+  echo "install-hook: kept the existing pre-push hook; it now runs after the prove check." >&2
+fi
+
+cat > "$hook" <<'HOOK'
+#!/bin/sh
+# prove-wrapper: run the prove check, then the previous pre-push hook, with the same input.
+input=$(cat)
+d="$(git rev-parse --path-format=absolute --git-common-dir)/prove"
+printf '%s\n' "$input" | "$d/pre-push" "$@" || exit 1
+[ -x "$d/pre-push.previous" ] || exit 0
+printf '%s\n' "$input" | exec "$d/pre-push.previous" "$@"
+HOOK
+chmod +x "$hook"
+echo "install-hook: installed at $hook" >&2

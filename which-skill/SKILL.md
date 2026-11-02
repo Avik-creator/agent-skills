@@ -34,6 +34,7 @@ Route the request to the fewest skills that do it, then follow those skills. Thi
 | Auth, input, uploads, secrets, a scanner finding, a threat model | `security` |
 | Logs, metrics, traces, alerts, an SLO, a slow endpoint | `observability` |
 | SQL, schema, migrations, transactions, pooling | `database` |
+| Prove a change works in the real app, or set up verification for a repo | `prove` |
 | Drive a real browser or app to check something | `automation` |
 | Finish a change into a PR or MR, a rollback plan, a release checklist, a tag | `ship` |
 | Write or update a PR or MR title or body, or draft review replies | `writing-pr` |

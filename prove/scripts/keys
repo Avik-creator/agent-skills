@@ -1,0 +1,38 @@
+#!/bin/sh
+# Lock or check the answer keys in .prove/keys against .prove/keys.lock.
+# Usage: keys lock | keys check. Run anywhere in the repo; .prove sits in the main checkout.
+set -eu
+
+common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 2
+dir="$(cd "$common/.." && pwd)/.prove"
+[ -d "$dir/keys" ] || { echo "keys: no answer keys in $dir/keys" >&2; exit 2; }
+
+if command -v sha256sum >/dev/null 2>&1; then
+  sum() { sha256sum "$1"; }
+else
+  sum() { shasum -a 256 "$1"; }
+fi
+
+# One "hash  path" line per key file, in a fixed order.
+digest() {
+  cd "$dir" && find keys -type f ! -name .DS_Store | LC_ALL=C sort | while IFS= read -r f; do sum "$f"; done
+}
+
+case "${1:-}" in
+  lock)
+    digest > "$dir/keys.lock"
+    echo "keys: locked $(wc -l < "$dir/keys.lock" | tr -d ' ') file(s) in $dir/keys.lock" >&2
+    ;;
+  check)
+    [ -f "$dir/keys.lock" ] || { echo "keys: not locked yet. After the user approves the keys, run: keys lock" >&2; exit 1; }
+    now=$(digest)
+    [ "$now" = "$(cat "$dir/keys.lock")" ] && exit 0
+    echo "keys: answer keys changed since the user approved them (< approved, > now):" >&2
+    printf '%s\n' "$now" | diff "$dir/keys.lock" - >&2 || true
+    exit 1
+    ;;
+  *)
+    echo "usage: keys lock | keys check" >&2
+    exit 2
+    ;;
+esac
