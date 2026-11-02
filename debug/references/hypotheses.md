@@ -16,7 +16,7 @@ Spread the first two or three across different categories. Why: three guesses fr
 ## Categories
 - **Logic**: a wrong operator or condition, off by one, a missing case, a wrong order of steps.
 - **Data**: an unexpected shape, null or empty, a wrong type or coercion, encoding, truncation, overflow, a duplicate.
-- **State**: a race, a stale cache, wrong initial values, shared state changed by someone else, an illegal state transition.
+- **State**: a race, a stale cache, wrong initial values, shared state changed by someone else, an illegal state transition. A failure that appears only after a restart points to persisted state first: config files, caches, lock files, saved sessions.
 - **Integration**: a request or response that doesn't match the contract, version skew between parts, a config that differs between environments, a missing variable.
 - **Resource**: a pool, file handle, memory or disk running out, a lock held too long, a timeout.
 - **Environment**: a missing or different runtime or dependency version, permissions, platform behaviour, time zone or locale.
@@ -33,6 +33,17 @@ Spread the first two or three across different categories. Why: three guesses fr
 - A confirmed cause has a chain from the cause to the symptom, with every link observed or cited.
 - When two hypotheses are both confirmed, check whether they are one compound cause before ranking them.
 - When none is confirmed, write new ones from what the checks showed. Don't widen the old ones.
+
+## When the guesses share an assumption
+Two disproved hypotheses, or two fixes that already failed, often rest on one belief about the system. Each failure is evidence against that belief.
+- Write the belief as one sentence, then test it before the next hypothesis: find an observation that would come out differently if it were false.
+- Look at how the failures are spread (which inputs, hosts, users or times), not only at how big they are.
+- If the check breaks the belief, look for what the failures share that it didn't predict. If the belief holds, ask the next "why": the earlier fixes may have treated a consequence.
+
+## Is the state allowed?
+Where it broke, ask whether the system is allowed to be in that state.
+- **Allowed**: the code that broke on it is the cause, and handling the state there is the fix.
+- **Not allowed**: a check where it broke would hide the bug. Trace back to what produced the state (SKILL.md step 6).
 
 ## Reading a stack trace
 - Start at the throw, then find the first frame in this repo's code. That is usually where to look, even when the throw is inside a library.

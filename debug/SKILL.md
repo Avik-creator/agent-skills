@@ -33,7 +33,7 @@ Ask what would change the reproduction or the expected behavior.
 4. **Narrow it.** Find when it was first seen and the commit, config, dependency, or data change on that line. A regression with a known good commit: [bisect.md](references/bisect.md). Find similar code that works and list every difference.
 5. **Test one hypothesis at a time.** Each names its evidence and the observation that would disprove it. Spread the first ones across the categories in [hypotheses.md](references/hypotheses.md). Undo a probe that did not confirm before trying the next.
 6. **Trace to the source.** Follow the bad value back to where it was made, not where it crashed. Read the callers: an upstream check may make the path unreachable. Report that, with the check.
-7. **Stop when stuck.** Three hypotheses disproved, or each one exposing a new problem, means the model of the system is wrong. Re-read the path from the start and say so.
+7. **Stop when stuck.** Three hypotheses disproved, or each one exposing a new problem, means the model of the system is wrong. Write down the belief they share and test it ([hypotheses.md](references/hypotheses.md)), then re-read the path from the start and say so.
 
 ## Rules
 
@@ -55,6 +55,7 @@ Ask what would change the reproduction or the expected behavior.
 - The root cause, backed by the code or a log line. A cause without evidence stays marked as a hypothesis.
 - What was checked and ruled out.
 - The handoff: the test that should go red (its level, input, and assertion), and the change for `coding`.
+- Other places with the same fault, from a search for the pattern, or "none found" with the search used.
 - The signal that would have shown it sooner, and the test level that should have caught it.
 - Scratch files kept, if any, and where.
 
@@ -70,5 +71,5 @@ When stopping mid-task, write down the symptom, what was tried and ruled out, wh
 
 - [references/reproduce.md](references/reproduce.md) - the repro spec, pinning time and randomness, and what to do when it won't reproduce.
 - [references/bisect.md](references/bisect.md) - read before `git bisect`: exit codes and a step script that skips unbuildable and flaky commits.
-- [references/hypotheses.md](references/hypotheses.md) - hypothesis categories, reading a stack, causes outside the code, and grading evidence.
+- [references/hypotheses.md](references/hypotheses.md) - hypothesis categories, grading evidence, shared assumptions, allowed states, reading a stack, and causes outside the code.
 - [references/production.md](references/production.md) - read before looking at a live system: read-only limits, signals, and proposing a mitigation.
