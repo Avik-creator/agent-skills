@@ -1,0 +1,37 @@
+#!/bin/sh
+# Install the ship pre-push check into the current repo, keeping any existing pre-push hook.
+# Usage: install-hook <path to scripts/pre-push>. Touches only files inside .git/.
+set -eu
+
+src=${1:?usage: install-hook <path to scripts/pre-push>}
+[ -f "$src" ] || { echo "install-hook: $src not found" >&2; exit 2; }
+
+if git config --get core.hooksPath >/dev/null; then
+  echo "install-hook: core.hooksPath is set to $(git config --get core.hooksPath); a hook manager owns the hooks." >&2
+  echo "Add the ship step there instead (see references/hook.md); nothing was changed." >&2
+  exit 3
+fi
+
+ship="$(git rev-parse --git-common-dir)/ship"
+hooks="$(git rev-parse --git-common-dir)/hooks"
+mkdir -p "$ship" "$hooks"
+cp "$src" "$ship/pre-push"
+chmod +x "$ship/pre-push"
+
+hook="$hooks/pre-push"
+if [ -f "$hook" ] && ! grep -q 'ship-wrapper' "$hook"; then
+  mv "$hook" "$ship/pre-push.previous"
+  echo "install-hook: kept the existing pre-push hook; it now runs after the ship check." >&2
+fi
+
+cat > "$hook" <<'EOF'
+#!/bin/sh
+# ship-wrapper: run the ship check, then the previous pre-push hook, with the same input.
+input=$(cat)
+d="$(git rev-parse --git-common-dir)/ship"
+printf '%s\n' "$input" | "$d/pre-push" "$@" || exit 1
+[ -x "$d/pre-push.previous" ] || exit 0
+printf '%s\n' "$input" | exec "$d/pre-push.previous" "$@"
+EOF
+chmod +x "$hook"
+echo "install-hook: installed at $hook" >&2
