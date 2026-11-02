@@ -15,11 +15,6 @@ if [ "${PROVE_SKIP:-}" = 1 ]; then
   exit 0
 fi
 
-if [ ! -d "$dir" ]; then
-  echo "prove: no $dir folder, so nothing shows this push was proved. Run prove, or push with PROVE_SKIP=1 once." >&2
-  exit 1
-fi
-
 status=0
 block() {
   echo "prove: $1" >&2
@@ -32,6 +27,11 @@ while read -r lref lsha rref rsha; do
   case "$lsha" in *[!0]*) ;; *) continue ;; esac
   branch=${rref#refs/heads/}
   short=$(git rev-parse --short "$lsha")
+
+  if [ ! -d "$dir" ]; then
+    block "no $dir folder, so nothing shows $branch at $short was proved. Run prove on this commit."
+    continue
+  fi
 
   # Run folders start with a timestamp, so the last match is the newest run.
   rec=$(grep -l "^head $lsha" "$dir"/runs/*/receipt.md 2>/dev/null | tail -n 1)
