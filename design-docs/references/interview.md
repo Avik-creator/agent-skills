@@ -27,6 +27,7 @@ Use the ones that apply:
 - **Failure:** what breaks, what the user sees when it does, and how they recover
 - **Constraints:** budget, deadline, team size, what already exists and must not change
 - **Later:** what this makes easier later, and what it rules out
+- **Proof:** for each goal, where it is seen, what right looks like and who wrote that, and what result counts as a pass (see proof.md)
 - **Pieces:** how the work splits into parts that can each ship and be checked alone, with dependencies pointing one way
 
 ## Ending

@@ -22,6 +22,7 @@ Use only the sections that apply:
 - Success measures
 - Constraints and dependencies
 - Risks
+- Proof
 - Open questions
 
 ## Engineering spec sections
@@ -36,7 +37,7 @@ Use only the sections that apply:
 - Trade-offs
 - Compatibility
 - Rollout and rollback
-- Verification
+- Proof
 - Open questions
 
 ## Rules
@@ -46,6 +47,7 @@ Use only the sections that apply:
 - **Non-goals:** a non-goal excludes something a reasonable reader would assume is included.
 - **Success measures:** each one says what changes, from what to what if known, and how it will be checked.
 - **Trade-offs:** for each choice, name the option not taken and why, in one line.
+- **Proof:** every goal and requirement gets a row in the Proof section, as proof.md says.
 - **Rollout:** include a way back (a flag, a revert, a migration down) and what to watch while rolling out.
 - **Open questions:** name what each one blocks. Name an owner only when one is known.
 - **The end:** finish with the decision still needed before implementation.
