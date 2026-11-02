@@ -36,6 +36,7 @@ Nothing leaves this machine until the change is checked, the bar is intact, and 
 Run [interview.md](references/interview.md) on the committed change. When it ends, write the record so the hook knows:
 `mkdir -p "$(dirname "$(git rev-parse --git-common-dir)/ship/<branch>")" && printf 'head %s\n' "$(git rev-parse HEAD)" > "$(git rev-parse --git-common-dir)/ship/<branch>"`
 A fix made during the interview is committed before the record is written.
+The user may skip the interview: write the record and say in the reply that it was skipped. A skip covers that interview only; after new commits, ask again about the short re-interview. Never skip it unasked, and never call it compulsory. Why: it teaches and never blocks, but the choice is the user's.
 
 ### 5. Push and open the PR or MR
 - The commit being pushed needs a passing `prove` receipt. Run `prove` if it has none, and again after any commit made in steps 2 to 4. Why: the hook blocks a push whose exact commit wasn't proved.
