@@ -81,3 +81,13 @@ Say the cause, or the hypothesis still open.
 From the author's `engineering-method` §1 and §4:
 - A problem report ends with the report, and the fix waits for a yes.
 - "Consistent with" is not "caused by".
+
+## Added 2026-11-02: shared assumptions and allowed states
+From pstack's `principle-attack-the-premise` and `principle-fix-root-causes` in [cursor/plugins](https://github.com/cursor/plugins) (MIT, Copyright (c) 2026 Lauren Tan), read in full from the downloaded `plugins-main` folder.
+- **Taken:**
+  - testing the belief that disproved hypotheses or failed fixes share, and looking at how the failures are spread
+  - asking whether the triggering state is allowed, which decides where the fix belongs
+  - restart-only failures point to persisted state
+  - searching for other places with the same fault (now a report line)
+- **Changed:** pstack applies these to fixing. Here they shape the diagnosis, and the fix still goes to `coding` after a yes.
+- **Dropped:** "remove the condition instead of compensating for it" and the links to other pstack principles. SKILL.md's workaround rule already covers the first.
