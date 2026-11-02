@@ -18,7 +18,7 @@ Each step calls these skills, in this order. Why: the user should know what runs
 | 4. Build and test | `coding` and `testing`; `go`, `database`, `security`, `observability` alongside where `which-skill` says | Small steps, each one checked, committed in order | Commits on the branch | A change outside the stop-and-ask list, or a key looks wrong |
 | 5. Prove | `prove`, with `automation` to drive a browser | Drives every touched flow, a fresh agent gives the verdict, writes the receipt | A PROVED receipt for the commit | BLOCKED, UNPROVEN, or the fix rounds run out |
 | 6. Review | `review` | A fresh reviewer proves each finding; fixes are committed, then `prove` runs again | A clean review and a new receipt | A fix needs a schema, API, security or user-visible change |
-| 7. Open the PR | `ship`, with `writing-pr` for the description | Done gate, bar-guard, commit plan, interview, push, PR | The open PR | Always: the commit plan, the interview and the push each need a yes |
+| 7. Open the PR | `ship`, with `writing-pr` for the description | Done gate, bar-guard, commit plan, interview, push, PR | The open PR | Always: the commit plan and the push each need a yes; the interview runs unless the user skips it |
 
 The user merges. Nothing in this workflow merges, deploys or pushes to the default branch.
 
@@ -63,7 +63,7 @@ Run `prove` on the committed head. Its rules decide the fix rounds for a BROKEN 
 Run `review` on the branch. If its fixes change code, commit them and run `prove` again. Why: the push gate needs a receipt for the exact commit being pushed.
 
 ## 7. Open the PR
-Run `ship`. Its commit plan, interview and push are the last questions, kept on purpose because they are checks. Any commit made inside `ship` (a bar-guard fix, an interview fix) means `prove` runs again before the push. For a visual change, the before and after screenshots from the prove run go in the PR's before-and-after table, after a yes. Stop at the open PR; the user merges.
+Run `ship`. Its commit plan, interview and push are the last questions, kept on purpose. The user may skip the interview, as `ship` says; the agent never skips it unasked. Any commit made inside `ship` (a bar-guard fix, an interview fix) means `prove` runs again before the push. For a visual change, the before and after screenshots from the prove run go in the PR's before-and-after table, after a yes. Stop at the open PR; the user merges.
 
 ## When to stop and ask
 Only when: a decision isn't in the playback, a change is outside the stop-and-ask list, a key and the app disagree, a check is BLOCKED or UNPROVEN, or the fix rounds ran out. Ask one question with a recommended answer, then carry on.

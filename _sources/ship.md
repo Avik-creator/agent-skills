@@ -68,3 +68,4 @@ Not run: the real `gh pr create` and `glab mr create` calls, and the interview i
 - The hook is now global: `<skill dir>/../_hooks/install` runs at step 1 without asking, at the author's request, and the per-repo `scripts/install-hook` is removed. hook.md covers hook managers, older per-repo installs and removal.
 - `scripts/pre-push` keys on the remote ref, so `git push origin HEAD` is checked; before, it was skipped. Its header comment is now one line.
 - Step 5 needs a passing `prove` receipt for the pushed commit, and a new run after any commit in steps 2 to 4.
+- 2026-11-03: step 4 says the user may skip the interview (the record is still written, and the skip is said); an agent never skips it unasked. At the author's request.
