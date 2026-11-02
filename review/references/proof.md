@@ -16,6 +16,8 @@ Before proving anything, read the callers, guards and tests that reach the chang
 | Spec: wrong behaviour | The intent bullet quoted, and a test or command that shows the behaviour differs. |
 | Spec: a requirement missing | The intent bullet quoted, and a test or command that shows it isn't handled. A search that finds no code for it is supporting evidence, not proof on its own. |
 | Security | A test or local request that shows the hole, such as user B reading user A's row. |
+| Compatibility | A run with what the other side still sends or reads (the old payload, the old config, a client at the old version) that fails. For developer setup, the two lines quoted: the setup file that still uses the old name next to the code that reads the new one. |
+| A feature gate leak | A test or local request, without the flag or the internal role, that reaches the gated code. |
 | Performance | A measurement with its number and unit: a query count in a test, `EXPLAIN ANALYZE` on a local database, or a benchmark. |
 
 Every proof command must run as written from the copy's path. Why: it gets re-run there, word for word.
