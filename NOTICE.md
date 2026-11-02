@@ -11,6 +11,7 @@ These skills were written for this repo. Some rules, examples and structure were
 - Copyright (c) 2025 Microsoft Corporation: [microsoft/postgres-skills](https://github.com/microsoft/postgres-skills)
 - Copyright (c) 2026 Matt Pocock: [mattpocock/skills](https://github.com/mattpocock/skills)
 - Copyright (c) 2025 agdev: [agdev/claude-code](https://github.com/agdev/claude-code)
+- Copyright (c) 2026 Cursor: [cursor/plugins](https://github.com/cursor/plugins)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

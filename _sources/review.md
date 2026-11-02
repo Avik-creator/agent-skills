@@ -20,3 +20,12 @@ From wshobson/agents `review-agent-governance` (`ai-debt-detector`): resources o
 
 ## Renamed 2026-11-02
 The skill was called `code-review` until 2026-11-02. It was renamed to `review` because the old name collided with Claude Code's built-in `/code-review` command.
+
+## Added 2026-11-02: strict mode (references/strict.md)
+From `thermo-nuclear-code-quality-review` in [cursor/plugins](https://github.com/cursor/plugins) `cursor-team-kit/skills/` (MIT, Copyright (c) 2026 Cursor). It was installed by the author, who folded it into review and removed it.
+- **Taken:** the opt-in strict pass, deleting complexity before rearranging it, and the categories: spaghetti growth, one-off modes, edge cases mid-function, leaking, wrong home, blurred contracts, magic, temporary branches, orchestration. Also the order of remedies, fewer high-conviction comments, and a direct tone.
+- **Dropped:**
+  - The 1,000-line file rule and "presumptive blocker" on crossing it. The threshold is invented, and it conflicts with refactor's "never split for file size alone".
+  - "Be ambitious, restructure the codebase, go for it". Here strict findings are proposals applied after a yes.
+  - Pushing logic into a new abstraction, state machine or policy object by default. Here an abstraction is a remedy only when it removes branches or copies that exist now.
+- **Changed:** a half-applied update that can actually happen is reported as a correctness Finding, not as Structure.

@@ -27,7 +27,7 @@ Route the request to the fewest skills that do it, then follow those skills. Thi
 | Write tests for a change, fix a flaky test, "what could break here" | `testing` |
 | Manual test cases, QA coverage, how to test a flow by hand | `test-cases` |
 | Find why something fails: a crash, wrong result, red CI, a production error | `debug` |
-| Review a diff, a branch or a pull request | `review` |
+| Review a diff, a branch or a pull request, including a strict or thermo-nuclear quality review | `review` |
 | Refactor, clean up, deduplicate, or standardize an area | `refactor` |
 | Talk through an idea, a PRD, a spec, a system design, an architecture or scale review, a runbook, a README | `design-docs` |
 | A throwaway prototype to answer one design question | `prototype` |

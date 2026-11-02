@@ -1,6 +1,6 @@
 ---
 name: review
-description: Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. Checks the change against what it was meant to do (decisions agreed with the user, a design write-up, the PR or issue) and against the repo's own rules. Runs on its own before handing over any change that affects behaviour, and on request for a branch, commit range, pull request or pasted diff. Use when finishing a code, SQL, migration or config change, or when the user asks to review, check or audit a diff, branch or PR, says "review since X", "look over this PR" or "is this ready to merge". Not for checking a change in a real browser - use automation; not for writing tests - use testing; not for a repo-wide cleanup - use refactor.
+description: Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. Checks the change against what it was meant to do (decisions agreed with the user, a design write-up, the PR or issue) and against the repo's own rules. Runs on its own before handing over any change that affects behaviour, and on request for a branch, commit range, pull request or pasted diff. Use when finishing a code, SQL, migration or config change, or when the user asks to review, check or audit a diff, branch or PR, says "review since X", "look over this PR" or "is this ready to merge", or asks for a strict, deep, harsh or thermo-nuclear code quality review. Not for checking a change in a real browser - use automation; not for writing tests - use testing; not for a repo-wide cleanup - use refactor.
 ---
 
 # Review
@@ -18,8 +18,8 @@ A review is worth what it proves. A fresh reviewer reads what the code does, not
 ## When it runs
 
 - **Before you say "done"** on any change that affects behaviour: code, SQL, migrations, config that changes what runs. Why: this is the self-review that comes before the user's own review.
-- **Skip** changes that don't: docs, comments, typo fixes. Say so: "Review skipped: docs only."
-- **Someone else's branch or PR**: only when the user asks.
+- **Skip** changes that don't (docs, comments, typo fixes), and say so: "Review skipped: docs only." Someone else's branch or PR: only when the user asks.
+- **Strict**: when the user asks for a strict, deep or thermo-nuclear quality review, also run [strict.md](references/strict.md). Its Structure section goes after Findings.
 
 ## Workflow
 
@@ -96,3 +96,4 @@ User: "Review PR 214." Its description says "retry failed webhooks up to 3 times
 - [references/feedback.md](references/feedback.md) - read before posting on someone else's PR.
 - [references/dependencies.md](references/dependencies.md) - read when the change adds or upgrades a dependency.
 - [references/simplify.md](references/simplify.md) - the reviewer reads its signals; read it all before a simplification pass.
+- [references/strict.md](references/strict.md) - read on a strict or thermo-nuclear request; the reviewer reads it too.
