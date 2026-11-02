@@ -29,3 +29,8 @@ Read in full from the downloaded `plugins-main` folder: `principle-sequence-veri
 - Verification runs locally, with no CI. Answer keys and receipts stay in a git-ignored `.prove/` folder, and the keys are locked when the user approves them.
 - The fresh checker falls back from a subagent to another agent's CLI to a new session; self-checked never counts as PROVED.
 - Verdicts go in chat and screenshots in the PR's before-and-after table, following `ship` and `writing-pr`, instead of a verdict list in the PR body.
+
+## Changed 2026-11-03, after a fresh-agent review
+- The promise is now "no questions between the playback and ship's final checks"; ship's commit plan, interview and push stay, because they are checks.
+- The verifier's method choice moves into the ask step, and the global hooks turn on first.
+- `testing` joins the build step; a prototype is a structure key, never a pixel key; base-commit snapshots are taken before the lock; any commit inside ship means prove runs again.

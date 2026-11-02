@@ -18,22 +18,22 @@ The building agent reading its own diff is not a check.
 Pick the highest rung that exists, and say which rung it is.
 
 1. **An old system** that does the same job. Drive both and compare.
-2. **A snapshot:** a saved good result, such as screenshots, API responses or CLI output from before the change, or an approved prototype.
+2. **A snapshot:** a saved good result, such as screenshots, API responses or CLI output from before the change, or a design export.
 3. **An independent test suite** that does not depend on the code it checks.
 4. **A written spec:** steps and acceptance criteria, specific enough to fail.
 5. **Nothing:** the agent decides what right means. Flag it as the weakest, and ask whether a higher rung can be made.
 
 Which rung fits which change:
 - **Bug fix:** a reproduction that fails before the fix and passes after.
-- **Refactor or migration:** the app before the change (rung 1 or 2). Nothing should change.
-- **New screen or flow:** the approved prototype or design (rung 2), plus spec lines for behaviour a picture can't show.
+- **Refactor or migration:** the app before the change, run beside it (rung 1) or as a snapshot (rung 2). Nothing should change.
+- **New screen or flow:** spec lines (rung 4), plus a design export (rung 2) when there is one. An approved prototype fixes the structure (which parts, in what order, where each step leads), but it is rough on purpose, so it is never a pixel key.
 - **New surface that copies an existing one** (an MCP server beside an API): parity with the existing one. When one change edits both sides, add spec lines too, because both sides can be wrong the same way.
 - **Every change:** the existing flows it touched, directly or through shared code (schema, auth, navigation, a shared component), checked against the app before the change.
 
 ## Pixel thresholds for screens
 
 - **Refactor or migration:** 0%. Any difference fails, and the pixel delta is investigated.
-- **New screen against a prototype or design:** the user picks the threshold. Propose 3% at 3 widths.
+- **New screen against a design export:** the user picks the threshold. Propose 3% at 3 widths.
 - Freeze what moves: fonts, data, time, animations and the browser version. Why: without that, the number is noise.
 
 ## Rules
@@ -50,6 +50,6 @@ Add a **Proof** section: one row per check.
 | # | Proves | Surface | Answer key (rung) | Check | Pass signal |
 |---|---|---|---|---|---|
 | 1 | Goal 1: signed-out user gets a reset link | email captured locally | spec (4) | scripted flow | one email within 1 minute, link opens the reset page |
-| 2 | Existing sign-in still works | sign-in page | app before the change (2) | browser drive | same screens and same rows as before |
+| 2 | Existing sign-in still works | sign-in page | snapshot of the app before the change (2) | browser drive | same screens and same rows as before |
 
 Every check must pass before the work counts as done.
