@@ -30,3 +30,19 @@ The author's `writing-pr` skill was shared on 2026-09-07. The original text isn'
 - GitLab docs (Project markdown uploads): `POST /projects/:id/uploads` with form field `file`. The response has a ready-to-embed `markdown` field. The page doesn't say who can view uploads in private projects, so uploading waits for a yes.
 - `glab api --form` uploads a file with `@path`.
 - Not verified: whether `gh` can upload images. No such command was found, so the skill asks the user to drop the image in through the browser.
+
+## Added 2026-11-02: plain words (references/plain-words.md) and simple-English replies
+From pstack's `unslop` and `technical-writing` in [cursor/plugins](https://github.com/cursor/plugins) (MIT, Copyright (c) 2026 Lauren Tan), read in full from the downloaded `plugins-main` folder.
+- **Taken:**
+  - the AI-vocabulary, fancy-"is", long-word and metaphor-noun lists
+  - "say what it does, not how it feels"
+  - the hedging, adverb, rule-of-three, "-ing" tail and synonym rules
+  - the placement of "only" and "not", clear pronouns, whole sentences, and mixed sentence lengths
+  - the formatting tells, link text, and chat phrases
+- **Dropped:**
+  - Diátaxis modes; `documentation.md` already picks the document type
+  - the STE and Google style rules this skill already has (active voice, one idea per sentence, defined terms)
+  - "no colons" and "no semicolons", which are too strict for reference text
+  - the repo-specific notes (tabs, budget scripts) and the worked example
+- `writing-pr/references/plain-words.md` and `design-docs/references/plain-words.md` are identical copies. Change both together.
+- Every skill's Replies now says to talk to the user in simple English, at the author's request.
