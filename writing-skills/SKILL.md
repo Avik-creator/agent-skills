@@ -74,4 +74,9 @@ Follow [EVALS.md](EVALS.md): cases with must and must-not written first, three a
 - [ ] At least one concrete example
 - [ ] Consistent terms, nothing time-sensitive
 - [ ] Tested with and without the skill, including near misses
+- [ ] A Replies line tells the agent to talk to the user in simple English
 - [ ] Every line earns its place
+
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.

@@ -71,3 +71,7 @@ The branch stays local. Push it only when the user asks.
 - The answer moves in, never the prototype code. Rewrite it properly.
 - Write the tests first from the prototype's scenarios, watch them fail, then write the code. The details per branch are in each reference.
 - Run `review` on the result before handing it over.
+
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.

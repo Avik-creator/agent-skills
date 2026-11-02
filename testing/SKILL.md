@@ -73,6 +73,10 @@ Bugs found
 - <file>:<line> - <defect>. Failing test: <name>.
 ```
 
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 ## References
 
 - [references/error-hunt.md](references/error-hunt.md) - the edge bank and error kinds, each with the break that proves its test.

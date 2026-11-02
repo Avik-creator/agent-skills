@@ -75,3 +75,7 @@ Read only the file the task needs.
 
 ## Other engines
 No engine-specific references exist yet. Apply the rules above, and check syntax, locking and online-DDL behaviour in that engine's own documentation rather than carrying Postgres syntax over. For example, MySQL upserts use `ON DUPLICATE KEY UPDATE`, and online DDL is controlled with `ALGORITHM` and `LOCK`. Add a `references/<engine>/` folder when one is needed.
+
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.

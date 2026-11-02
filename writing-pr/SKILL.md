@@ -69,4 +69,6 @@ Per thread: the file and line, the reviewer's point in one line, and the drafted
 
 ## Replies
 
-Show the title and body as they will appear. Say what was left out and why.
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
+Before showing anything, check it against [plain-words.md](references/plain-words.md), the patterns that make text read as machine-written. Then show the title and body as they will appear. Say what was left out and why.

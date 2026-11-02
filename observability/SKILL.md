@@ -62,6 +62,10 @@ In staging, force the failure the questions are about. Find that one request by 
 - What you induced, and where it showed up.
 - **Could improve:** a missing RED series, a label with unbounded values, an alert with no runbook. Propose it, and apply it after a yes. A change inside a monitoring backend waits for that backend's skill and a yes.
 
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 ## References
 
 | File | Read when |

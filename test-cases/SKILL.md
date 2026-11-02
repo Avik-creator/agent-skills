@@ -60,4 +60,6 @@ Say what is still uncovered. Do not claim complete coverage when the source is a
 
 ## Replies
 
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 Say how many cases, and what is still uncovered.

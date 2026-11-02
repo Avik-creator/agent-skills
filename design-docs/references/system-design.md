@@ -14,6 +14,7 @@ Ask which mode when the request doesn't say.
 
 **A proposal.** Design something new.
 - First ask for the constraints that would change the design: expected scale, latency target, budget, team size, what already exists, and what must not change. Give your recommended answer with each.
+- Sketch at least two structurally different designs before choosing: different owners, boundaries or data flow, not one shape with a tweak. Why: the first shape that works is rarely the only one, and a second one shows what the first costs.
 - Recommend one design. Name the alternatives you didn't choose, one line each, with the reason.
 - Never invent users, scale or a deadline.
 
@@ -32,6 +33,21 @@ Ask which mode when the request doesn't say.
 
 - V1 is the simplest design that meets today's requirement. Add a layer only for a failure or bottleneck that evidence shows.
 - No performance claim without a measurement. Give the number, its unit, and how it was measured. If nothing was measured, say "not measured", and treat the optimisation as unjustified.
+
+## Screen the shape
+
+Check each candidate design for these, and revise or reject a shape that has one. Assume the next person to change the code sees only the file they opened and copies the nearest example; prefer the design where a change that looks right in one file is right everywhere.
+
+- **Shallow module**: a large interface that hides little. Callers coordinate several calls to finish one operation, or options expose internal stages. Prefer a small interface over substantial behaviour.
+- **Leaking details**: a representation, policy or wire format that several modules depend on, so changing it means coordinated edits. Parse outside data into the system's own types at the boundary, and keep storage and protocol details private.
+- **Ordered by steps**: modules named for when they run (load, validate, transform, save) that each repeat the same rules. Group code by the knowledge it owns instead.
+- **Pass-through layer**: a method or layer that forwards the same arguments to another with the same shape. Remove it, unless it adds policy or a real abstraction.
+- **Split ownership**: more than one module writes the same state or keeps its own copy. Give each piece of state one owner that others read from or ask.
+- **Two ways to do one task**: every way keeps gaining callers. Keep one, and move callers off the others in the same change.
+- **Importable internals**: outside code can reach a module's internals, so they become part of its interface. Make an outside import fail the build.
+- **Hand-synced lists**: two places list the same items. Derive one from the other, or make the build fail when they disagree.
+
+When two shapes both pass, prefer the one that hides more behind a smaller public interface.
 
 ## The document
 

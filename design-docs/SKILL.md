@@ -32,6 +32,7 @@ You and the user discuss the work together first. The document comes last, writt
 | A site map, navigation, page structure, URL rules or user flows for a product | [information-architecture.md](references/information-architecture.md) |
 | Docs for something that exists: a flow, API reference, runbook, guide, README, changelog | [documentation.md](references/documentation.md) |
 | Any flow or diagram, in any of the above | [flows-and-diagrams.md](references/flows-and-diagrams.md) |
+| Any draft, before you show it: words and patterns that read as machine-written | [plain-words.md](references/plain-words.md) |
 
 If it isn't clear which type, or who will read it, ask. Why: a PRD and a spec for the same feature answer different questions for different readers.
 
@@ -64,4 +65,6 @@ After: "If the sign-in token has expired, the server answers 401 (not signed in)
 - Write nothing to a file, canvas or tool until the user answers. Why: publishing is hard to take back once others have read it.
 
 ## Replies
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 During the discussion, each reply moves one decision forward and ends with the next question. At the end, say which document you wrote and where, which facts are still assumed, and the open questions with what each one blocks.
