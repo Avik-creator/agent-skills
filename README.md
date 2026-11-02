@@ -13,10 +13,12 @@ Start with [which-skill](which-skill/SKILL.md) when a request could match more t
 | [coding](coding/SKILL.md) | Use when writing or changing code, including a test that was asked for. |
 | [database](database/SKILL.md) | Designs, writes, reviews and changes database-backed application code safely - tenant-scoped, index-aware queries, keyset pagination, schema and constraint design, zero-downtime migrations, race-free transactions, connection pooling, and careful access to real databases - with detailed Postgres guidance. |
 | [debug](debug/SKILL.md) | Use when asked to diagnose, debug, or find why something fails: a crash, a wrong result, an error in a log or CI run, a test that started failing, a failure that comes and goes, a regression, or an error in production. |
+| [deliver](deliver/SKILL.md) | Takes a piece of work from request to an open PR with proof. It asks everything up front, prototypes screens and logic first, plays the whole plan back for one confirmation, locks the answer keys, then builds, proves, reviews and opens the PR. |
 | [design-docs](design-docs/SKILL.md) | Talks a piece of software work through with the user first - one decision at a time, each with a recommended answer - and only then writes the document together, in plain English anyone can follow. |
 | [go](go/SKILL.md) | Writes, changes and reviews Go code to current standards - version-correct idioms from the Modern Go Guidelines CLI, stdlib-first boring design, and a fixed set of checks before handover. |
 | [observability](observability/SKILL.md) | Instruments a feature so on-call can tell that it broke, where time went, and why, using logs, metrics, and traces, and designs symptom alerts. |
 | [prototype](prototype/SKILL.md) | Builds a throwaway prototype that answers one design question before real code is written - either a single double-click HTML file that lets anyone drive a state model through guided scenarios, or several structurally different UI variants on a real page, switchable with ?variant=. |
+| [prove](prove/SKILL.md) | Proves a change works in the real running app before anyone says done - it starts the app, drives every flow the change touches the way a user or program would, compares the result with an answer key the builder did not write, and gets the verdict from a fresh agent, with evidence saved locally. |
 | [refactor](refactor/SKILL.md) | Audits a repo or an area of it for drift, duplication, divergent flows, reimplemented code, over-engineering, dead code and visible waste, then applies approved fixes one behaviour-preserving step at a time. |
 | [security](security/SKILL.md) | Threat-models a change that crosses a trust boundary, turns each abuse case into a failing test, triages a scanner or advisory finding, and writes a design review into the design doc. |
 | [ship](ship/SKILL.md) | Takes a finished change to an open pull or merge request, then stops so the user merges and releases. |
@@ -35,6 +37,10 @@ ln -s "$PWD/debug" ~/.claude/skills/debug
 ```
 
 Install the skills you want. Several hand work to each other by name (`debug` to `coding`, `ship` to `writing-pr`), and they say "where installed" when another skill is optional.
+
+## Git hooks
+
+`_hooks/` is a global git hooks folder. `_hooks/install` points git's global `core.hooksPath` at it, and `ship`, `prove` and `deliver` run that on their own, so every repo on the machine gets the checks. Its `pre-push` blocks a push without a `ship` interview and a `prove` receipt for the exact commit. Its other files run each repo's own hooks, so none are lost. A repo that sets its own `core.hooksPath` (husky, lefthook) needs the snippet in [ship's hook.md](ship/references/hook.md). `SHIP_SKIP=1` or `PROVE_SKIP=1` skips one push.
 
 ## Struggle notes
 

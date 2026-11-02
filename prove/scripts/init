@@ -1,0 +1,15 @@
+#!/bin/sh
+# Print this repo's .prove folder (in the main checkout), creating it and keeping it out of git.
+set -eu
+# The main checkout: this one, or the first worktree listed when this is a linked worktree.
+if [ "$(git rev-parse --absolute-git-dir)" = "$(git rev-parse --path-format=absolute --git-common-dir)" ]; then
+  root=$(git rev-parse --show-toplevel)
+else
+  root=$(git worktree list --porcelain | sed -n '1s/^worktree //p')
+fi
+dir="$root/.prove"
+mkdir -p "$dir"
+exclude="$(git rev-parse --path-format=absolute --git-common-dir)/info/exclude"
+mkdir -p "$(dirname "$exclude")"
+grep -qxF '.prove/' "$exclude" 2>/dev/null || echo '.prove/' >> "$exclude"
+echo "$dir"

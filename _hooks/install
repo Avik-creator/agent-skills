@@ -1,0 +1,26 @@
+#!/bin/sh
+# Turn on the global hooks (install), or say whether they run in this repo (install check).
+set -eu
+dir=$(cd -P "$(dirname "$0")" && pwd -P)
+
+if [ "${1:-}" = check ]; then
+  local_path=$(git config --local --get core.hooksPath 2>/dev/null || true)
+  if [ -n "$local_path" ]; then
+    echo "hooks: this repo sets its own core.hooksPath ($local_path), so the global checks don't run here." >&2
+    exit 1
+  fi
+  [ "$(git config --global --get core.hooksPath || true)" = "$dir" ] && exit 0
+  echo "hooks: the global hooks are off. Run: $dir/install" >&2
+  exit 1
+fi
+
+current=$(git config --global --get core.hooksPath || true)
+if [ "$current" = "$dir" ]; then
+  exit 0
+fi
+if [ -n "$current" ]; then
+  echo "hooks: global core.hooksPath is already $current; nothing changed. Ask the user which one should win." >&2
+  exit 3
+fi
+git config --global core.hooksPath "$dir"
+echo "hooks: turned on for every repo on this machine (global core.hooksPath = $dir)" >&2

@@ -13,6 +13,7 @@ These skills were written for this repo. Some rules, examples and structure were
 - Copyright (c) 2025 agdev: [agdev/claude-code](https://github.com/agdev/claude-code)
 - Copyright (c) 2026 Cursor: [cursor/plugins](https://github.com/cursor/plugins)
 - Copyright (c) 2026 Lauren Tan: pstack, in [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack)
+- Copyright (c) 2026 Ray Amjad: [ray-amjad/skills](https://github.com/ray-amjad/skills)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

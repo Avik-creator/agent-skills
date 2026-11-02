@@ -58,3 +58,6 @@ qa-skills-main: all 50 skills (184 files), README, AGENTS.md, CLAUDE.md, agents/
 ## Refresh
 1. Re-check the Playwright, axe and Vitest pages above before changing `e2e.md` or the fake-timer rule.
 2. Look up MSW's current unhandled-request option before naming it.
+
+## Added 2026-11-03
+- The "Not for" line points to `prove` for checking a change against an answer key.

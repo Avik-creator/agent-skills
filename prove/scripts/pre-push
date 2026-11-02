@@ -1,0 +1,68 @@
+#!/bin/sh
+# Prove check: block a push unless its commit has a passing receipt whose answer keys are unchanged; PROVE_SKIP=1 skips one push.
+
+# The main checkout: this one, or the first worktree listed when this is a linked worktree.
+if [ "$(git rev-parse --absolute-git-dir)" = "$(git rev-parse --path-format=absolute --git-common-dir)" ]; then
+  root=$(git rev-parse --show-toplevel)
+else
+  root=$(git worktree list --porcelain | sed -n '1s/^worktree //p')
+fi
+dir="$root/.prove"
+here=$(dirname "$0")
+
+if [ "${PROVE_SKIP:-}" = 1 ]; then
+  echo "prove: check skipped (PROVE_SKIP=1)" >&2
+  exit 0
+fi
+
+if [ ! -d "$dir" ]; then
+  echo "prove: no $dir folder, so nothing shows this push was proved. Run prove, or push with PROVE_SKIP=1 once." >&2
+  exit 1
+fi
+
+status=0
+block() {
+  echo "prove: $1" >&2
+  status=1
+}
+
+while read -r lref lsha rref rsha; do
+  # The remote ref says what is being updated; the local ref can be HEAD or a commit.
+  case "$rref" in refs/heads/*) ;; *) continue ;; esac
+  case "$lsha" in *[!0]*) ;; *) continue ;; esac
+  branch=${rref#refs/heads/}
+  short=$(git rev-parse --short "$lsha")
+
+  # Run folders start with a timestamp, so the last match is the newest run.
+  rec=$(grep -l "^head $lsha" "$dir"/runs/*/receipt.md 2>/dev/null | tail -n 1)
+  if [ -z "$rec" ]; then
+    block "no prove run for $branch at $short. Run prove on this commit."
+    continue
+  fi
+
+  field() { tr -d '\r' < "$rec" | sed -n "s/^$1 //p" | head -n 1; }
+  result=$(field result)
+  checker=$(field checker)
+  task=$(field task)
+
+  case "$result" in
+    PROVED)
+      case "$checker" in
+        subagent|script|session|cli:?*) ;;
+        *) block "$rec has checker '${checker:-none}'; PROVED needs subagent, script, session or cli:<name>."; continue ;;
+      esac
+      if [ -z "$task" ]; then
+        block "$rec has no task line, so its answer keys can't be checked."
+        continue
+      fi
+      "$here/keys" check "$task" || status=1
+      if tr -d '\r' < "$rec" | grep '^not covered:' | grep -qv '(agreed)'; then
+        block "$rec leaves flows not covered that the user didn't agree to."
+      fi
+      ;;
+    NO-SURFACE) ;;
+    *) block "the last run for $branch at $short says ${result:-no result} ($rec)." ;;
+  esac
+done
+
+exit $status

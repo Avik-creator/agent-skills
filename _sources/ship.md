@@ -63,3 +63,8 @@ Not run: the real `gh pr create` and `glab mr create` calls, and the interview i
 ## Added 2026-11-02 (engineering-method and writing-pr)
 - From `engineering-method` §6, in done.md: search for the old name again after a rename, and re-read the whole diff once.
 - Step 5 now writes the description with `writing-pr`. The old "how it was verified" line was removed, because the author's writing-pr rule forbids it in the body.
+
+## Changed 2026-11-03 (with prove and deliver)
+- The hook is now global: `<skill dir>/../_hooks/install` runs at step 1 without asking, at the author's request, and the per-repo `scripts/install-hook` is removed. hook.md covers hook managers, older per-repo installs and removal.
+- `scripts/pre-push` keys on the remote ref, so `git push origin HEAD` is checked; before, it was skipped. Its header comment is now one line.
+- Step 5 needs a passing `prove` receipt for the pushed commit, and a new run after any commit in steps 2 to 4.

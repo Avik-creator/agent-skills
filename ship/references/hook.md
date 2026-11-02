@@ -1,6 +1,6 @@
 # The pre-push hook
 
-Read before installing the hook (SKILL.md step 1) or when it blocks a push.
+Read at SKILL.md step 1, or when the hook blocks a push.
 
 ## What it does
 On every push of a branch, `scripts/pre-push` reads the record at `<git-common-dir>/ship/<branch>` (`head <sha>`) and decides:
@@ -16,23 +16,27 @@ On every push of a branch, `scripts/pre-push` reads the record at `<git-common-d
 
 `SHIP_SKIP=1 git push` skips the check for one push. That is the user's choice; the agent never suggests it. The record and the hook live inside `.git/`, so nothing is committed and teammates are not affected.
 
-## Install (after a yes)
+## The global hooks
+The library's `_hooks/` folder holds one `pre-push` for every repo on the machine. It runs this check and prove's, then the repo's own `pre-push` hook. Its other files pass every other hook (`pre-commit`, `commit-msg` and the rest) to the repo's own hook, so no repo loses a hook.
 ```bash
-<skill dir>/scripts/install-hook <skill dir>/scripts/pre-push
+<skill dir>/../_hooks/install          # turn on: sets git's global core.hooksPath to that folder; repeating it changes nothing
+<skill dir>/../_hooks/install check    # is it active in this repo?
 ```
-- It copies the check to `.git/ship/pre-push` and writes a small `pre-push` hook that runs it.
-- An existing `pre-push` hook is moved to `.git/ship/pre-push.previous`. It still runs after the check, with the same input.
-- Running it again refreshes the check; it is safe to repeat.
-- Worktrees share it, because it uses the common git dir.
-- Exit 3: `core.hooksPath` is set (husky, lefthook or another manager owns the hooks). Nothing was changed. See below.
+- Run `install` at the start of every ship run, without asking: it changes only the global git setting, and the user asked for every push to be checked. Tell the user in one line when it turned the hooks on.
+- Exit 3: the global `core.hooksPath` already points somewhere else. Nothing was changed. Ask the user which one should win.
+- `install check` fails with "this repo sets its own core.hooksPath": a hook manager (husky, lefthook) owns this repo's hooks, and the global hooks don't run here. See below.
+- An older per-repo install (a `pre-push` with `ship-wrapper` in it) makes the check run twice. Remove it as below.
 
 ## When a hook manager owns the hooks
-The manager's hook files are usually committed, so changing them changes every teammate's setup. Ask first. If the user agrees, add this at the top of that `pre-push` file. It does nothing for anyone without the local check installed:
+The manager's hook files are usually committed, so changing them changes every teammate's setup. Ask first. If the user agrees, add this at the top of that `pre-push` file. It does nothing for anyone without the global hooks:
 ```sh
-f="$(git rev-parse --git-common-dir)/ship/pre-push"
-if [ -x "$f" ]; then input=$(cat); printf '%s\n' "$input" | "$f" "$@" || exit 1; fi
+g=$(git config --global --get core.hooksPath)
+if [ -n "$g" ] && [ -x "$g/pre-push" ]; then input=$(cat); printf '%s\n' "$input" | "$g/pre-push" "$@" || exit 1; fi
 ```
-Then copy `scripts/pre-push` to `.git/ship/pre-push` and make it executable. If later steps in that file read the push list from stdin, they need `printf '%s\n' "$input" |` in front of them, because the line above has already read it.
+If later steps in that file read the push list from stdin, they need `printf '%s\n' "$input" |` in front of them, because the line above has already read it.
 
 ## Remove
-Delete `.git/hooks/pre-push`, move `.git/ship/pre-push.previous` back to `.git/hooks/pre-push` if it exists, then delete `.git/ship/`. Show these commands and run them after a yes.
+- The global hooks: `git config --global --unset core.hooksPath`.
+- An older per-repo install: delete `.git/hooks/pre-push`, and move `.git/ship/pre-push.previous` back to `.git/hooks/pre-push` if it exists. Keep `.git/ship/`, which holds the interview records.
+
+Show these commands and run them after a yes.

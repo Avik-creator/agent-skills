@@ -11,6 +11,7 @@ You and the user discuss the work together first. The document comes last, writt
 1. Read what already exists (code, routes, docs, configs) before asking anything.
 2. Discuss with the user in chat, one decision at a time, each with your recommended answer. See [interview.md](references/interview.md), or [ideas.md](references/ideas.md) when no direction is chosen yet.
 3. Keep a short running list of what is decided and what is still open, and show it as you go.
+   For every goal, settle how it will be proved, as [proof.md](references/proof.md) says.
 4. Write nothing until the user says the decisions are settled.
 5. Then write the document together: pick the type below, write one section at a time, and check each with the user.
 6. Ask how to deliver the flows (tldraw, Markdown, or both), then where to publish.
@@ -31,6 +32,7 @@ You and the user discuss the work together first. The document comes last, writt
 | A system design, an architecture review, or a scale or performance improvement | [system-design.md](references/system-design.md) |
 | A site map, navigation, page structure, URL rules or user flows for a product | [information-architecture.md](references/information-architecture.md) |
 | Docs for something that exists: a flow, API reference, runbook, guide, README, changelog | [documentation.md](references/documentation.md) |
+| How each goal will be checked, in any plan, PRD or spec | [proof.md](references/proof.md) |
 | Any flow or diagram, in any of the above | [flows-and-diagrams.md](references/flows-and-diagrams.md) |
 | Any draft, before you show it: words and patterns that read as machine-written | [plain-words.md](references/plain-words.md) |
 

@@ -23,3 +23,6 @@ Name mapping from the author's set to the library:
 - **Bug chain:** debug now stops for a yes before coding. The reproduction test comes first through testing, and test-cases is used only for a case no automated test can reach. The original went cause, fix, cases, review.
 - **New chains:** "Slow" and "Live incident".
 - **`review` limit:** checked against review/SKILL.md:52,56. It fixes proven findings in the user's own work and reports only on others' PRs, so "edits nothing until approved" was not written for it.
+
+## Added 2026-11-03
+- Rows for `prove` and `deliver`, and a line in the feature chain pointing to `deliver`.

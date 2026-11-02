@@ -10,3 +10,6 @@ Read on 2026-11-02.
 Dropped on purpose: auto-commit to a throwaway branch and the pointer on the implementation issue (both need a yes now), the `pnpm <name>` task-runner rule (UI uses the normal dev command), "skip the polish" for the fold-in (it is tests-first now).
 
 Refresh: `gh api 'repos/mattpocock/skills/commits?path=skills/engineering/prototype&per_page=1'`, then diff from the SHA above.
+
+## Added 2026-11-03
+- "When it runs" now names `deliver`, which prototypes screens and logic by default. Decided with the author; the rule outside `deliver` is unchanged.

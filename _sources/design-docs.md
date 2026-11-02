@@ -42,3 +42,15 @@ From pstack's `unslop` and `technical-writing` in [cursor/plugins](https://githu
   - the repo-specific notes (tabs, budget scripts) and the worked example
 - `writing-pr/references/plain-words.md` and `design-docs/references/plain-words.md` are identical copies. Change both together.
 - Every skill's Replies now says to talk to the user in simple English, at the author's request.
+
+## Added 2026-11-03: proof for every goal (references/proof.md)
+From Ray Amjad's `idea-to-spec` and the Prove It README in ray-amjad/skills (MIT, Copyright (c) 2026 Ray Amjad), and pstack's `poteto-mode/playbooks/visual-parity.md` in [cursor/plugins](https://github.com/cursor/plugins) (MIT, Copyright (c) 2026 Lauren Tan), read in full from the downloaded `skills-main` and `plugins-main` folders.
+- **Taken:**
+  - surface, answer key, check and pass signal for every goal, decided by the user
+  - the five-rung answer-key ladder, and which key fits a new flow, an existing flow, a copied surface and a migration
+  - "a fully mocked test proves no goal" and "the builder reviewing its own work is not a verifier"
+  - human-judgment checks need a proposed replacement and never count as proof; a missing environment is a question, never a weaker check
+  - 0% pixel difference for parity work (pstack); a user-chosen threshold for a new screen, at the author's request
+- **Dropped:**
+  - idea-to-spec's fresh-agent critique of a draft, its GitHub-issue publishing default and its invariants and ADR workflow; this skill already discusses first and asks where to publish
+  - the course links and beta notes

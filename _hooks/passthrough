@@ -1,0 +1,6 @@
+#!/bin/sh
+# Run the repo's own hook of the same name, so the global hooks folder doesn't switch it off.
+common=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) || exit 0
+own="$common/hooks/$(basename "$0")"
+[ -x "$own" ] || exit 0
+exec "$own" "$@"

@@ -23,6 +23,7 @@ Route the request to the fewest skills that do it, then follow those skills. Thi
 
 | The request | Skill |
 |---|---|
+| Build a whole feature after one round of questions: ask, prototype, build, prove, review, PR | `deliver` |
 | Write or change code, or a test that was asked for | `coding` |
 | Write tests for a change, fix a flaky test, "what could break here" | `testing` |
 | Manual test cases, QA coverage, how to test a flow by hand | `test-cases` |
@@ -34,6 +35,7 @@ Route the request to the fewest skills that do it, then follow those skills. Thi
 | Auth, input, uploads, secrets, a scanner finding, a threat model | `security` |
 | Logs, metrics, traces, alerts, an SLO, a slow endpoint | `observability` |
 | SQL, schema, migrations, transactions, pooling | `database` |
+| Prove a change works in the real app, or set up verification for a repo | `prove` |
 | Drive a real browser or app to check something | `automation` |
 | Finish a change into a PR or MR, a rollback plan, a release checklist, a tag | `ship` |
 | Write or update a PR or MR title or body, or draft review replies | `writing-pr` |
@@ -52,7 +54,7 @@ Read the chosen skill and follow it.
 Run the stages in order. Each skill's own stops still hold. Pause for the user's yes before any stage that writes code, pushes, or touches a shared system.
 
 - **Bug:** `debug` finds and proves the cause, and stops. After a yes, `coding` fixes it, with the reproduction test written red first through `testing`. Then `review`. Add `test-cases` only when no automated test can reach it.
-- **Feature:** `design-docs` when there is no agreed spec, then `coding`, then `testing`, then `review`. `ship` comes when the user wants it pushed.
+- **Feature:** `design-docs` when there is no agreed spec, then `coding`, then `testing`, then `review`. `ship` comes when the user wants it pushed. When the user wants all the questions first and the rest done with proof, `deliver` runs this chain with a prototype and `prove`.
 - **Release:** `review`, then `ship`. Ship's done gate, its interview, and `writing-pr` for the description all run inside `ship`. A migration follows `database` and ship's deploy notes.
 - **Cleanup:** `refactor`, which applies each approved step through `coding`.
 - **Design:** `design-docs` for the system design, then a spec in `design-docs` if one is still needed, then `coding` after approval. `prototype` first when one question needs trying before deciding.

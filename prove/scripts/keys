@@ -1,0 +1,71 @@
+#!/bin/sh
+# Lock or check a task's answer keys: keys lock <task> | keys check <task> | keys check (every locked task).
+set -eu
+
+# The main checkout: this one, or the first worktree listed when this is a linked worktree.
+if [ "$(git rev-parse --absolute-git-dir)" = "$(git rev-parse --path-format=absolute --git-common-dir)" ]; then
+  root=$(git rev-parse --show-toplevel)
+else
+  root=$(git worktree list --porcelain | sed -n '1s/^worktree //p')
+fi
+dir="$root/.prove"
+
+if command -v sha256sum >/dev/null 2>&1; then
+  sum() { sha256sum "$1"; }
+else
+  sum() { shasum -a 256 "$1"; }
+fi
+
+valid() {
+  case "$1" in
+    ''|.*|*/*) echo "keys: '$1' is not a task name (a folder name under $dir/keys)" >&2; exit 2 ;;
+  esac
+}
+
+# One "hash  path" line per key file of a task, in a fixed order; empty when the folder is gone.
+digest() {
+  [ -d "$dir/keys/$1" ] || return 0
+  cd "$dir" && find "keys/$1" -type f ! -name .DS_Store | LC_ALL=C sort | while IFS= read -r f; do sum "$f"; done
+}
+
+check_one() {
+  lock="$dir/locks/$1.lock"
+  if [ ! -f "$lock" ]; then
+    echo "keys: $1 is not locked. After the user approves its keys, run: keys lock $1" >&2
+    return 1
+  fi
+  now=$(digest "$1")
+  [ "$now" = "$(cat "$lock")" ] && return 0
+  echo "keys: answer keys for $1 changed since the user approved them (< approved, > now):" >&2
+  printf '%s\n' "$now" | diff "$lock" - >&2 || true
+  return 1
+}
+
+case "${1:-}" in
+  lock)
+    task=${2:-}; valid "$task"
+    out=$(digest "$task")
+    [ -n "$out" ] || { echo "keys: $dir/keys/$task is missing or empty; nothing to lock" >&2; exit 2; }
+    mkdir -p "$dir/locks"
+    printf '%s\n' "$out" > "$dir/locks/$task.lock"
+    echo "keys: locked $(printf '%s\n' "$out" | wc -l | tr -d ' ') file(s) for $task" >&2
+    ;;
+  check)
+    if [ -n "${2:-}" ]; then
+      valid "$2"; check_one "$2"
+    else
+      set -- "$dir"/locks/*.lock
+      [ -f "$1" ] || { echo "keys: nothing is locked yet. Build the keys with the user, then run: keys lock <task>" >&2; exit 1; }
+      status=0
+      for lock in "$@"; do
+        task=$(basename "$lock" .lock)
+        check_one "$task" || status=1
+      done
+      exit $status
+    fi
+    ;;
+  *)
+    echo "usage: keys lock <task> | keys check [<task>]" >&2
+    exit 2
+    ;;
+esac

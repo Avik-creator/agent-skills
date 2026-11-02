@@ -5,14 +5,17 @@
 !/LICENSE
 !/NOTICE.md
 !/_sources/
+!/_hooks/
 !/automation/
 !/coding/
 !/database/
 !/debug/
+!/deliver/
 !/design-docs/
 !/go/
 !/observability/
 !/prototype/
+!/prove/
 !/refactor/
 !/review/
 !/security/

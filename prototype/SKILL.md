@@ -16,6 +16,7 @@ A prototype is throwaway code that answers one question. The question decides it
 
 ## When it runs
 - When the user asks for one.
+- Inside `deliver`, which prototypes screens and logic by default. Its rule decides; still show the one-line plan first.
 - When a design discussion (design-docs) reaches a decision that talking can't settle, suggest one in a single line, such as "a clickable demo of the retry states would settle this". Build only after a yes. Why: most decisions don't need a prototype, and one built unasked slows the discussion.
 
 ## Pick the branch
