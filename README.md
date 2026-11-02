@@ -38,6 +38,10 @@ ln -s "$PWD/debug" ~/.claude/skills/debug
 
 Install the skills you want. Several hand work to each other by name (`debug` to `coding`, `ship` to `writing-pr`), and they say "where installed" when another skill is optional.
 
+## Git hooks
+
+`_hooks/` is a global git hooks folder. `_hooks/install` points git's global `core.hooksPath` at it, and `ship`, `prove` and `deliver` run that on their own, so every repo on the machine gets the checks. Its `pre-push` blocks a push without a `ship` interview and a `prove` receipt for the exact commit. Its other files run each repo's own hooks, so none are lost. A repo that sets its own `core.hooksPath` (husky, lefthook) needs the snippet in [ship's hook.md](ship/references/hook.md). `SHIP_SKIP=1` or `PROVE_SKIP=1` skips one push.
+
 ## Struggle notes
 
 A skill may have a local `struggles/` folder of notes on where it went wrong in real use. Git ignores it. [writing-skills](writing-skills/SKILL.md) says what goes in a note.

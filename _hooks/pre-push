@@ -1,0 +1,17 @@
+#!/bin/sh
+# Global pre-push: run the ship and prove checks, then the repo's own pre-push hook, with the same input.
+input=$(cat)
+skills=$(cd -P "$(dirname "$0")/.." && pwd -P)
+
+# Run every check, so one push shows every blocker.
+status=0
+for check in "$skills/ship/scripts/pre-push" "$skills/prove/scripts/pre-push"; do
+  [ -x "$check" ] || continue
+  printf '%s\n' "$input" | "$check" "$@" || status=1
+done
+[ "$status" = 0 ] || exit 1
+
+common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
+own="$common/hooks/pre-push"
+[ -x "$own" ] || exit 0
+printf '%s\n' "$input" | exec "$own" "$@"
