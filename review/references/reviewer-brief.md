@@ -45,7 +45,7 @@ Rules it should follow: <rule files, with paths>. Where they disagree with
 <path to checks.md>, the rule files win.
 
 How to work:
-1. Read <path to checks.md>, <path to proof.md>, and the Signals section of <path to simplify.md>.
+1. Read <path to checks.md>, <path to proof.md>, and the Signals section of <path to simplify.md>. On a strict review, also <path to strict.md>.
 2. Run the tests and the linter in the copy. Report the commands and the results.
 3. Review the diff against the intent and the rules, and read the code it calls and is called by.
 4. Prove each finding as proof.md says. Anything you write goes in the copy.
@@ -58,6 +58,7 @@ Send back, in this order, under 600 words:
   Add (pre-existing) when the proof also fails at the base.
 - Couldn't prove: the risk, why it can't be proven here, how to check it.
 - Judgement calls: file:line, the smell, one line each.
+- Structure (strict review only): file:lines, what got worse, the simpler shape.
 - Any test files you wrote, with their paths in the copy.
 Zero findings is a valid result. Don't invent one.
 ```
@@ -67,7 +68,7 @@ Zero findings is a valid result. Don't invent one.
 Above about 400 changed lines, send two briefs in parallel, each with its own copy:
 
 - **Intent reviewer**: the intent bullets, and the correctness, security and performance checks. Leave out the rule files and the smells.
-- **Rules reviewer**: the rule files, and the architecture, readability and test checks plus the smells. Leave out the intent bullets.
+- **Rules reviewer**: the rule files, and the architecture, readability and test checks plus the smells, and strict.md on a strict review. Leave out the intent bullets.
 
 Why: each reviewer has less to hold, and one kind of finding can't crowd out the other.
 
