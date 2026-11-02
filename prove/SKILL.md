@@ -28,7 +28,7 @@ Why local: nothing from a real project leaves the machine, and teammates get no 
 
 ## Run
 1. **Scope.** From the diff, list what the change touches: new flows, and existing flows it reaches directly or through shared code (schema, auth, navigation, a shared component). Check only those. Why: checking the whole app is slow and hides what the change did. A change of new files only adds a short smoke test, keyed to the base commit.
-2. **No runnable surface** (docs, comments, CI config, types only): receipt with `result NO-SURFACE` and the reason.
+2. **No runnable surface** (docs, comments, CI config, types only): receipt with `result NO-SURFACE` and the reason, after a fresh agent (not `script` or `self`) reads the diff and agrees nothing runnable changed. Why: otherwise the builder could skip proof by saying there is nothing to prove.
 3. **Launch and doctor** as `verifier.md` says. If the app won't start, the flow is BLOCKED with the exact error. Why: no code change fixes a missing credential, so there is nothing to loop on.
 4. **Scripts first:** tests, API calls against saved responses, pixel diffs, stored-state counts. Why: a script gives the same answer every time and shares no blind spot with the builder.
 5. **Drive** each flow like a user, with [methods.md](references/methods.md). Capture the action, the resulting state and every side effect.
@@ -51,7 +51,7 @@ Why local: nothing from a real project leaves the machine, and teammates get no 
 - BROKEN on work the user owns goes back to the builder: fix, prove again, at most 3 rounds, then stop and report. Why: a fourth try rarely works where three didn't. On someone else's change, report only.
 
 ## The push gate
-The global `pre-push` blocks a push unless the pushed commit has a receipt with `result PROVED` (with a named checker and a locked task whose keys still match, and no unagreed gaps) or `NO-SURFACE`. Every new commit needs a new run. `PROVE_SKIP=1` skips one push; that is the user's call, never suggest it.
+The global `pre-push` blocks a push unless the pushed commit has a receipt with `result PROVED` (with a named checker and a locked task whose keys still match, and no unagreed gaps) or `result NO-SURFACE` (with a fresh-agent checker). Every new commit needs a new run. `PROVE_SKIP=1` skips one push; that is the user's call, never suggest it.
 
 ## Example
 User: "Prove the new invite flow." First run in the repo.

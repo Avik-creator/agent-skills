@@ -49,3 +49,4 @@ Read in full from the downloaded `plugins-main` folder: `create-verification-ski
   - the pass-through hook is silent when git runs it before a repo exists (during `git init` and `git clone`)
 - **Text:** a `script` checker counts only for checks locked with the keys; a prototype is a structure key, never a pixel key; snapshots are taken before the lock; the smoke test is keyed to the base commit; `verifier.md` changes only through the drift rule, reported to the user.
 - 2026-11-03, after merge: the missing-`.prove/` check moved inside the per-ref loop. Before, a repo where prove had never run blocked every push, branch deletes and tags included. Found by the live check after PR #9.
+- 2026-11-03: a NO-SURFACE receipt now needs a fresh-agent checker (subagent, session or cli:<name>). Before, a receipt with no checker line passed, so the builder could skip proof by saying nothing runs.
