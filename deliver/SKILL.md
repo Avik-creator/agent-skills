@@ -8,13 +8,19 @@ description: Takes a piece of work from request to an open PR with proof. It ask
 All of the user's decisions happen before any code, including how the work will be proved. After one confirmation, the agent builds to answer keys it did not write, and asks again only when blocked.
 
 ## Quick start
-1. **Ask:** what is wanted, and how each goal is proved.
-2. **Prototype** screens and logic, unless the work doesn't need one.
-3. **Play back** the whole plan in one message; after a yes, save and lock the keys.
-4. **Build and test** in small steps, each one checked.
-5. **Prove** it with `prove`.
-6. **Review** it with `review`.
-7. **Open the PR** with `ship`, then stop.
+Each step calls these skills, in this order. Why: the user should know what runs, what it hands on, and when it will stop.
+
+| Step | Skills called | What happens | Hands on | Stops for the user when |
+|---|---|---|---|---|
+| 1. Ask | `design-docs` (interview.md, proof.md); `prove` (setup.md) when the repo has no verifier | Reads the repo, asks one decision at a time, settles each goal's proof | The decided list and the Proof table | Each question (this step is the asking) |
+| 2. Prototype | `prototype` | Builds screen variants or a clickable logic demo, unless the rule in step 2 skips it | The chosen variant and its scenarios | The user picks a variant |
+| 3. Play back | `prove` (`scripts/init`, `scripts/keys`) | One message with the whole plan; after a yes, creates the branch, saves and locks the keys | Locked keys in `.prove/keys/<task>/` | The user confirms |
+| 4. Build and test | `coding` and `testing`; `go`, `database`, `security`, `observability` alongside where `which-skill` says | Small steps, each one checked, committed in order | Commits on the branch | A change outside the stop-and-ask list, or a key looks wrong |
+| 5. Prove | `prove`, with `automation` to drive a browser | Drives every touched flow, a fresh agent gives the verdict, writes the receipt | A PROVED receipt for the commit | BLOCKED, UNPROVEN, or the fix rounds run out |
+| 6. Review | `review` | A fresh reviewer proves each finding; fixes are committed, then `prove` runs again | A clean review and a new receipt | A fix needs a schema, API, security or user-visible change |
+| 7. Open the PR | `ship`, with `writing-pr` for the description | Done gate, bar-guard, commit plan, interview, push, PR | The open PR | Always: the commit plan, the interview and the push each need a yes |
+
+The user merges. Nothing in this workflow merges, deploys or pushes to the default branch.
 
 ## 1. Ask
 - First turn on the global hooks, as `prove` step 1 says. Why: every later push is checked, with no repo left out.
