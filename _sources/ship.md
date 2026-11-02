@@ -70,3 +70,4 @@ Not run: the real `gh pr create` and `glab mr create` calls, and the interview i
 - Step 5 needs a passing `prove` receipt for the pushed commit, and a new run after any commit in steps 2 to 4.
 - 2026-11-03: step 4 says the user may skip the interview (the record is still written, and the skip is said); an agent never skips it unasked. At the author's request.
 - 2026-11-03, from a Cursor test run: the record command is split over two lines with a named path, and says a branch with / makes folders above the record file (the agent ran mkdir -p on the record path itself).
+- 2026-11-03: the hook checks only branches deliver marked; cleanup removes the mark. At the author's request.

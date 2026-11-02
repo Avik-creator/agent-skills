@@ -1,6 +1,6 @@
 ---
 name: prove
-description: Proves a change works in the real running app before anyone says done - it starts the app, drives every flow the change touches the way a user or program would, compares the result with an answer key the builder did not write, and gets the verdict from a fresh agent, with evidence saved locally. On first use in a repo it sets up that repo's verifier (how to launch, check, drive and clean up the app, plus a feature map), and a global git pre-push hook, turned on automatically, blocks any push that was not proved. Works with any coding agent. Use when the user says prove it, verify this works, check it in the real app, show me it works, set up verification for this repo, "the agent keeps saying done without testing", when a push is blocked by "prove:", or before handing over or pushing any change. Not for writing test files - use testing; not for reviewing a diff - use `review`; not for a one-off browser task - use automation.
+description: Proves a change works in the real running app before anyone says done - it starts the app, drives every flow the change touches the way a user or program would, compares the result with an answer key the builder did not write, and gets the verdict from a fresh agent, with evidence saved locally. On first use in a repo it sets up that repo's verifier (how to launch, check, drive and clean up the app, plus a feature map), and on branches the deliver skill marked, a global git pre-push hook blocks any push that was not proved. Works with any coding agent. Use when the user says prove it, verify this works, check it in the real app, show me it works, set up verification for this repo, "the agent keeps saying done without testing", when a push is blocked by "prove:", or before handing over or pushing any change. Not for writing test files - use testing; not for reviewing a diff - use `review`; not for a one-off browser task - use automation.
 ---
 
 # Prove
@@ -8,7 +8,7 @@ description: Proves a change works in the real running app before anyone says do
 "Done" means the change was seen working where users meet it, and checked against what right looks like. Code that compiles, passing tests, and the builder's reading of its own diff are not proof.
 
 ## Quick start
-1. Turn on the global hooks: run `<skill dir>/../_hooks/install`, then `install check`, without asking. Tell the user in one line if it turned them on, or why they can't run in this repo (`ship`'s hook.md covers hook managers). Why: the user wants no push to skip a check.
+1. Turn on the global hooks: run `<skill dir>/../_hooks/install`, then `install check`, without asking. Tell the user in one line if it turned them on, or why they can't run in this repo (`ship`'s hook.md covers hook managers). The hooks check only branches `deliver` marked (`<git-common-dir>/deliver/<branch>`). Why: the user wants the push checks for deliver work only.
 2. `D=$(scripts/init)` prints the `.prove/` folder in the main checkout, creates it, and keeps it out of git.
 3. No `$D/verifier.md`: set it up first ([setup.md](references/setup.md)).
 4. Find the task's keys in `$D/keys/<task>/`. None: build them with the user ([answer-keys.md](references/answer-keys.md)), then `scripts/keys lock <task>`. Run `scripts/keys check <task>`; a changed key is BLOCKED until the user approves it again.
@@ -51,7 +51,7 @@ Why local: nothing from a real project leaves the machine, and teammates get no 
 - BROKEN on work the user owns goes back to the builder: fix, prove again, at most 3 rounds, then stop and report. Why: a fourth try rarely works where three didn't. On someone else's change, report only.
 
 ## The push gate
-The global `pre-push` blocks a push unless the pushed commit has a receipt with `result PROVED` (with a named checker and a locked task whose keys still match, and no unagreed gaps) or `result NO-SURFACE` (with a fresh-agent checker). Every new commit needs a new run. `PROVE_SKIP=1` skips one push; that is the user's call, never suggest it.
+On a branch `deliver` marked, the global `pre-push` blocks a push unless the pushed commit has a receipt with `result PROVED` (with a named checker and a locked task whose keys still match, and no unagreed gaps) or `result NO-SURFACE` (with a fresh-agent checker). Every new commit needs a new run. `PROVE_SKIP=1` skips one push; that is the user's call, never suggest it.
 
 ## Example
 User: "Prove the new invite flow." First run in the repo.

@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Takes a finished change to an open pull or merge request, then stops so the user merges and releases. Runs self-review and a done gate, scans the diff for a lowered bar (new suppressions, skipped or deleted tests, removed assertions, stubs), commits in logical pieces, then interviews the user about the feature and checks each answer against the code before anything is pushed; a global git pre-push hook, turned on automatically, blocks any push without the interview and a prove receipt. Use when the user says ship it, ready to ship, wrap this up, we're done, push this, open a PR or MR, create a merge request, or asks for a rollback plan, a deploy or release checklist, a version bump, a tag or a changelog, or to clean up after a merge. Not for reviewing someone else's PR - use `review`; not for adding telemetry or alerts - use observability.
+description: Takes a finished change to an open pull or merge request, then stops so the user merges and releases. Runs self-review and a done gate, scans the diff for a lowered bar (new suppressions, skipped or deleted tests, removed assertions, stubs), commits in logical pieces, then interviews the user about the feature and checks each answer against the code before anything is pushed; on branches the deliver skill marked, a global git pre-push hook blocks any push without the interview and a prove receipt. Use when the user says ship it, ready to ship, wrap this up, we're done, push this, open a PR or MR, create a merge request, or asks for a rollback plan, a deploy or release checklist, a version bump, a tag or a changelog, or to clean up after a merge. Not for reviewing someone else's PR - use `review`; not for adding telemetry or alerts - use observability.
 ---
 
 # Ship
@@ -20,7 +20,7 @@ Nothing leaves this machine until the change is checked, the bar is intact, and 
 ### 1. Check the state
 - On the default branch: propose a branch name and create it after a yes. Why: nothing is ever pushed to the default branch.
 - Find the host from `git remote -v`: GitHub uses `gh`, GitLab uses `glab`. Say "PR" or "MR" to match.
-- Run `<skill dir>/../_hooks/install`, then `install check`, without asking, as [hook.md](references/hook.md) says. Tell the user in one line if it turned the hooks on, or why they can't run in this repo. Why: the user wants no push to skip a check.
+- Run `<skill dir>/../_hooks/install`, then `install check`, without asking, as [hook.md](references/hook.md) says. Tell the user in one line if it turned the hooks on, or why they can't run in this repo. They check only branches `deliver` marked. Why: the user wants the push checks for deliver work only.
 
 ### 2. Self-review and the done gate
 - Run `review` on the change if it has not run since the last edit. Fix its Blockers and Fixes as it says.
@@ -54,7 +54,7 @@ The user may skip the interview: write the record and say in the reply that it w
 New commits since the interview: run a short interview on only those commits, then update the record and push again. A `prove:` block: run `prove` on that commit and push again. `SHIP_SKIP=1` and `PROVE_SKIP=1` are the user's call for one push; never suggest them yourself.
 
 ### 7. After the merge
-When the user says it is merged, list what to clean up: the local branch, worktrees and review copies for it, `.prototype/` folders for it, and `.git/ship/<branch>`. Show each before deleting; delete after a yes. Why: a worktree can hold uncommitted work.
+When the user says it is merged, list what to clean up: the local branch, worktrees and review copies for it, `.prototype/` folders for it, `.git/ship/<branch>`, and the deliver mark `.git/deliver/<branch>`. Show each before deleting; delete after a yes. Why: a worktree can hold uncommitted work.
 
 ## Example
 
