@@ -1,17 +1,35 @@
 #!/bin/sh
-# Global pre-push: run the ship and prove checks, then the repo's own pre-push hook, with the same input.
+# Global pre-push: on branches deliver marked (<git-common-dir>/deliver/<branch>), run the ship and prove checks; then the repo's own pre-push hook, with the same input.
 input=$(cat)
 skills=$(cd -P "$(dirname "$0")/.." && pwd -P)
+common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
+
+# Print the push lines whose branch deliver marked; every other push skips the checks.
+only_marked() {
+  while read -r lref lsha rref rsha; do
+    [ -n "$lref" ] || continue
+    case "$lref" in
+      refs/heads/*) local_branch=${lref#refs/heads/} ;;
+      *) local_branch=$(git symbolic-ref -q --short HEAD) ;;
+    esac
+    remote_branch=${rref#refs/heads/}
+    if [ -f "$common/deliver/$local_branch" ] || [ -f "$common/deliver/$remote_branch" ]; then
+      printf '%s %s %s %s\n' "$lref" "$lsha" "$rref" "$rsha"
+    fi
+  done
+}
+marked=$(printf '%s\n' "$input" | only_marked)
 
 # Run every check, so one push shows every blocker.
 status=0
-for check in "$skills/ship/scripts/pre-push" "$skills/prove/scripts/pre-push"; do
-  [ -x "$check" ] || continue
-  printf '%s\n' "$input" | "$check" "$@" || status=1
-done
+if [ -n "$marked" ]; then
+  for check in "$skills/ship/scripts/pre-push" "$skills/prove/scripts/pre-push"; do
+    [ -x "$check" ] || continue
+    printf '%s\n' "$marked" | "$check" "$@" || status=1
+  done
+fi
 [ "$status" = 0 ] || exit 1
 
-common=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
 own="$common/hooks/pre-push"
 [ -x "$own" ] || exit 0
 printf '%s\n' "$input" | exec "$own" "$@"
