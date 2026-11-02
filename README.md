@@ -14,6 +14,7 @@ Start with [which-skill](which-skill/SKILL.md) when a request could match more t
 | [database](database/SKILL.md) | Designs, writes, reviews and changes database-backed application code safely - tenant-scoped, index-aware queries, keyset pagination, schema and constraint design, zero-downtime migrations, race-free transactions, connection pooling, and careful access to real databases - with detailed Postgres guidance. |
 | [debug](debug/SKILL.md) | Use when asked to diagnose, debug, or find why something fails: a crash, a wrong result, an error in a log or CI run, a test that started failing, a failure that comes and goes, a regression, or an error in production. |
 | [design-docs](design-docs/SKILL.md) | Talks a piece of software work through with the user first - one decision at a time, each with a recommended answer - and only then writes the document together, in plain English anyone can follow. |
+| [go](go/SKILL.md) | Writes, changes and reviews Go code to current standards - version-correct idioms from the Modern Go Guidelines CLI, stdlib-first boring design, and a fixed set of checks before handover. |
 | [observability](observability/SKILL.md) | Instruments a feature so on-call can tell that it broke, where time went, and why, using logs, metrics, and traces, and designs symptom alerts. |
 | [prototype](prototype/SKILL.md) | Builds a throwaway prototype that answers one design question before real code is written - either a single double-click HTML file that lets anyone drive a state model through guided scenarios, or several structurally different UI variants on a real page, switchable with ?variant=. |
 | [refactor](refactor/SKILL.md) | Audits a repo or an area of it for drift, duplication, divergent flows, reimplemented code, over-engineering, dead code and visible waste, then applies approved fixes one behaviour-preserving step at a time. |
@@ -33,7 +34,7 @@ Copy or link a skill folder into your agent's skills folder, for example for Cla
 ln -s "$PWD/debug" ~/.claude/skills/debug
 ```
 
-The `go` skill the others mention is kept outside this repo. Install the skills you want. Several hand work to each other by name (`debug` to `coding`, `ship` to `writing-pr`), and they say "where installed" when another skill is optional.
+Install the skills you want. Several hand work to each other by name (`debug` to `coding`, `ship` to `writing-pr`), and they say "where installed" when another skill is optional.
 
 ## Sources
 

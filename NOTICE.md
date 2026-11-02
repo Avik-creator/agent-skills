@@ -21,6 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Apache License 2.0
 - [neondatabase/postgres-skills](https://github.com/neondatabase/postgres-skills), licensed under the Apache License, Version 2.0 (https://www.apache.org/licenses/LICENSE-2.0). The material adapted into `database` was changed, as recorded in `_sources/database.md`. That repository has no NOTICE file.
+- [JetBrains/go-modern-guidelines](https://github.com/JetBrains/go-modern-guidelines), licensed under the Apache License, Version 2.0. `go/scripts/run-tool.sh` and `go/scripts/VERSION` are copied unchanged, and its licence is in `go/scripts/LICENSE-modern-go-guidelines`. That repository has no NOTICE file.
 
 ## Not included
 `database/assets/pev2.html` (dalibo/pev2, PostgreSQL License) is not in this repo. `database/references/postgres/links.md` says how to download it.

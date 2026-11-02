@@ -1,6 +1,3 @@
 .DS_Store
-# Kept local by the owner's choice.
-go/
-_sources/go.md
 # Third-party viewer; download steps in database/references/postgres/links.md.
 database/assets/pev2.html
