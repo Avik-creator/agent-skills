@@ -34,3 +34,6 @@ Read in full from the downloaded `plugins-main` folder: `principle-sequence-veri
 - The promise is now "no questions between the playback and ship's final checks"; ship's commit plan, interview and push stay, because they are checks.
 - The verifier's method choice moves into the ask step, and the global hooks turn on first.
 - `testing` joins the build step; a prototype is a structure key, never a pixel key; base-commit snapshots are taken before the lock; any commit inside ship means prove runs again.
+
+## Changed 2026-11-03, after merge
+- The quick start is now a table: each step, the skills it calls, what happens, what it hands on, and when it stops for the user. At the author's request.
