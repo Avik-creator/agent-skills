@@ -60,7 +60,12 @@ while read -r lref lsha rref rsha; do
         block "$rec leaves flows not covered that the user didn't agree to."
       fi
       ;;
-    NO-SURFACE) ;;
+    NO-SURFACE)
+      case "$checker" in
+        subagent|session|cli:?*) ;;
+        *) block "$rec says NO-SURFACE with checker '${checker:-none}'; a fresh agent (subagent, session or cli:<name>) must agree nothing runnable changed." ;;
+      esac
+      ;;
     *) block "the last run for $branch at $short says ${result:-no result} ($rec)." ;;
   esac
 done

@@ -39,7 +39,7 @@ result PROVED | BROKEN | BLOCKED | UNPROVEN | NO-SURFACE
 flow <name>: <verdict> - key <rung> - <evidence path> - <one line>
 not covered: <flow> - <why> - <what would unlock it> [(agreed)]
 ```
-`result` is PROVED only when every flow is, and no unagreed `not covered` line is left. The push gate reads `head`, `task`, `checker` and `result`.
+`result` is PROVED only when every flow is, and no unagreed `not covered` line is left. NO-SURFACE needs `checker` `subagent`, `cli:<name>` or `session`: the checker gets only the diff and says whether any of it runs. The push gate reads `head`, `task`, `checker` and `result`.
 
 ## Evidence that counts
 - **A screen:** numbered screenshots or a recording of the flow, at each width the plan names.
