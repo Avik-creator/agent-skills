@@ -1,0 +1,81 @@
+# System design and architecture reviews
+
+Read when writing a system design, reviewing an architecture, or proposing a scale or performance improvement.
+
+Write as a senior engineer: recommend the smallest design that fits the evidence, name what you did not choose and why, and never reach for a pattern the evidence doesn't justify. Queues, caches, workers, sharding and microservices each need a named, concrete reason.
+
+## Pick the mode
+
+Ask which mode when the request doesn't say.
+
+**As it is.** Describe the system that exists today.
+- Read the repo: entry points, callers, routes, data stores, integrations, background jobs and deploy config.
+- Every component cites the file it comes from. A part you couldn't find goes under Open questions.
+
+**A proposal.** Design something new.
+- First ask for the constraints that would change the design: expected scale, latency target, budget, team size, what already exists, and what must not change. Give your recommended answer with each.
+- Recommend one design. Name the alternatives you didn't choose, one line each, with the reason.
+- Never invent users, scale or a deadline.
+
+**An improvement.** Make an existing system faster, cheaper or sturdier.
+- Read the current design from the code first.
+- Then gather real usage: traffic, growth, hot paths, read/write ratio, latency, error rate and cost. Use what the repo already exposes: logging and metrics code, dashboard config, tracing setup. Ask the user for any number the repo doesn't show.
+- Never estimate a number that neither the repo nor the user gave you. It goes under Open questions.
+
+## Facts and cost
+
+- Search the web before relying on an external fact: pricing, quotas, service limits, version behaviour, published benchmarks. Say what you found, and the date. Why: stale prices and limits produce a design that costs the wrong amount.
+- Treat cost as a requirement, not a footnote. Put real numbers against each option: monthly infrastructure, per request, per GB, licences. An option that blows the budget is not an option.
+- Name the constraint behind each choice, so a change in budget or scale points straight at what to revisit.
+
+## Design in layers
+
+- V1 is the simplest design that meets today's requirement. Add a layer only for a failure or bottleneck that evidence shows.
+- No performance claim without a measurement. Give the number, its unit, and how it was measured. If nothing was measured, say "not measured", and treat the optimisation as unjustified.
+
+## The document
+
+Use only the sections that apply:
+
+- the job the system does
+- the components, and what each one owns
+- the request path, step by step (see flows-and-diagrams.md)
+- where data lives, and who can change it
+- failure: what is lost, what retries, and what the user sees
+- what sits outside the system (third parties, other teams)
+- trade-offs, and what each choice enables or rules out later
+- cost per option
+- open questions
+
+## Failure modes
+
+Walk this list, and for each item say "applies, because..." or "doesn't apply, because...":
+
+- invalid input
+- missing data
+- duplicate requests and retries
+- partial failure
+- timeouts
+- concurrency and race conditions
+- stale data
+- permissions
+- network or dependency failure
+- deployment and rollback
+- observability (how you would know it broke)
+
+## For an improvement, also add
+
+- the evidence you read
+- each proposed change, tied to the evidence that justifies it
+- a priority for each change:
+  - P0: a risk the evidence shows is already happening
+  - P1: a real but smaller gap
+  - P2: polish
+
+A change with no evidence behind it is not proposed.
+
+## Scope
+
+- A security need gets one line: flag it for a security review (the `security` skill's design review, where installed).
+- Database internals follow the `database` skill where it is installed.
+- Building the change happens only after the user approves the design.

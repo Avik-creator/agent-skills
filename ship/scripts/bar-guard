@@ -1,0 +1,52 @@
+#!/bin/sh
+# List moves in a change that lower the bar: suppressions, skipped or deleted tests, removed assertions, stubs.
+# Usage: bar-guard [base]. Default base: merge-base with origin's default branch. Exit 0 clean, 1 hits, 2 could not run.
+
+top=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "bar-guard: not in a git work tree" >&2; exit 2; }
+cd "$top" || exit 2
+
+if [ -n "${1:-}" ]; then
+  base=$1
+else
+  def=$(git symbolic-ref -q --short refs/remotes/origin/HEAD 2>/dev/null) || def=origin/main
+  base=$(git merge-base HEAD "$def" 2>/dev/null) || { echo "bar-guard: no merge base with $def; pass a base" >&2; exit 2; }
+fi
+git rev-parse -q --verify "$base^{commit}" >/dev/null || { echo "bar-guard: bad base $base" >&2; exit 2; }
+
+# Tracked changes since base, plus untracked files as additions.
+diff=$(git diff -U0 --no-color "$base") || exit 2
+untracked=$(git ls-files --others --exclude-standard) || exit 2
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  diff="$diff
+$(git diff -U0 --no-color --no-index /dev/null "$f")"
+done <<EOF
+$untracked
+EOF
+
+added='@ts-ignore|@ts-nocheck|@ts-expect-error|eslint-disable|biome-ignore|# *noqa|# *type: *ignore|//nolint|nosemgrep|gitleaks:allow|istanbul ignore|c8 ignore|#\[allow\(|\.skip\(|\.only\(|(^|[^a-z])xit\(|xdescribe\(|pytest\.mark\.skip|t\.Skip|#\[ignore\]|[Nn]ot implemented|unimplemented!|todo!\(|panic\("TODO|(^|[^A-Za-z])TODO([^A-Za-z]|$)|catch *(\([^)]*\))? *\{ *\}'
+removed='expect\(|assert|should\.|t\.(Error|Fatal)|require\.'
+tests='(_test\.|\.test\.|\.spec\.|(^|/)test_|(^|/)tests?/)'
+
+# Patterns go through the environment; awk -v would strip their backslashes.
+hits=$(printf '%s\n' "$diff" | ADD="$added" REM="$removed" TST="$tests" awk '
+  BEGIN { add = ENVIRON["ADD"]; rem = ENVIRON["REM"]; tst = ENVIRON["TST"] }
+  /^diff --git / { inhdr = 1; next }
+  /^@@/ { inhdr = 0; next }
+  inhdr && /^--- / { old = substr($0, 5); sub(/^a\//, "", old); sub(/\t$/, "", old); next }
+  inhdr && /^\+\+\+ / {
+    f = substr($0, 5); sub(/^b\//, "", f); sub(/\t$/, "", f); del = 0
+    if (f == "/dev/null") { f = old; del = 1; if (f ~ tst) print f ": test file deleted" }
+    next
+  }
+  inhdr { next }
+  /^\+/ { line = substr($0, 2); if (line ~ add) print f ": added: " line; next }
+  /^-/ { line = substr($0, 2); if (!del && f ~ tst && line ~ rem) print f ": assertion removed: " line }
+') || { echo "bar-guard: scan failed" >&2; exit 2; }
+
+if [ -z "$hits" ]; then
+  echo "bar-guard: clean against ${base%"${base#???????}"}"
+  exit 0
+fi
+printf '%s\n' "$hits"
+exit 1
