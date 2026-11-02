@@ -1,6 +1,5 @@
 #!/bin/sh
-# Ship check: block a push whose commits have not been through a ship interview.
-# Record: <git-common-dir>/ship/<branch>, first line "head <sha>". SHIP_SKIP=1 skips one push.
+# Ship check: block a push whose commits had no ship interview; record <git-common-dir>/ship/<branch> starts "head <sha>"; SHIP_SKIP=1 skips one push.
 
 dir="$(git rev-parse --git-common-dir)/ship" || exit 1
 
@@ -21,9 +20,14 @@ hint="Run the ship interview, or push with SHIP_SKIP=1 to skip it once."
 status=0
 
 while read -r lref lsha rref rsha; do
-  case "$lref" in refs/heads/*) ;; *) continue ;; esac
+  # The remote ref says what is being updated; the local ref can be HEAD or a commit.
+  case "$rref" in refs/heads/*) ;; *) continue ;; esac
   case "$lsha" in *[!0]*) ;; *) continue ;; esac
-  branch=${lref#refs/heads/}
+  case "$lref" in
+    refs/heads/*) branch=${lref#refs/heads/} ;;
+    HEAD) branch=$(git symbolic-ref -q --short HEAD) || branch=${rref#refs/heads/} ;;
+    *) branch=${rref#refs/heads/} ;;
+  esac
   rec="$dir/$branch"
 
   if [ ! -f "$rec" ]; then
