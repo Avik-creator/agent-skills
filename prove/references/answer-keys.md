@@ -19,6 +19,7 @@ Read when choosing or saving an answer key. An answer key says what right looks 
 ## Saving keys
 - Put each task's keys in `.prove/keys/<task>/`: the proof plan (`plan.md`, one row per check: proves, surface, key and rung, check, pass signal), plus snapshots and expected outputs.
 - Take every snapshot before the lock, from a known good state: the base commit, a design export, or the prototype the user approved. Never from the change being checked. Why: a snapshot added after the lock changes the keys, and the run stops as BLOCKED.
+- Have a fresh agent open every snapshot before the lock (open them yourself only where none can run), and confirm it shows what it claims: the right page and width, the content visible, nothing blank or mid-animation. Why: a blank snapshot locked as a key matches a blank build at 0%.
 - Scripted checks that should count as the checker go in `keys/<task>/checks/`, before the lock.
 - An expected output worked out by the code under test is not a key. Generate it with a standalone script that reads the raw data itself and imports no project code, and save its output before the lock. For a list, the check is equality (the same items, and the same order when order is part of the goal), never "each shown item matches". Why: a helper bug would grade itself, and a subset check passes a list that dropped items.
 - Write down the differences that are allowed (new ids, timestamps, a bug the change fixes) next to the snapshot, and keep the list short. Why: a comparison that ignores too much hides real breaks.
@@ -29,7 +30,8 @@ Read when choosing or saving an answer key. An answer key says what right looks 
 - Compare screenshots at the widths the plan names, by default 375, 768 and 1440.
 - **Refactor or migration:** a threshold of 0%. Any difference fails; look at the pixels that changed.
 - **New screen against a design export:** the threshold the user chose, 3% by default.
-- Freeze fonts, data, the clock, animations and the browser version, or the number is noise.
+- Freeze fonts, data, the clock, animations and the browser version, or the number is noise. Freeze animations with styles applied after the page loads, wait for fonts, then wait until no animation is running (`document.getAnimations()` is empty) and the main content's computed opacity equals its final styled value; after 10 s the screenshot is BLOCKED. Save the screenshot script, freeze step included, in `keys/<task>/checks/` before the lock and use it for every later screenshot; it is a capture tool, not a check. Why: an init script alone can leave fade-ins at opacity 0, and a different freeze makes every diff noise.
+- A pixel pass needs eyes too: a fresh agent opens both images and the diff image. Why: two blank screenshots match at 0%.
 - A pass at one width says nothing about the others.
 - **New UI added to an existing screen** (a row above a list, a banner): a whole-page diff counts every shifted pixel. Screenshot the unchanged parts as elements and compare them at 0%; list the new part as the allowed difference, checked by its own flow.
 
