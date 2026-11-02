@@ -10,7 +10,7 @@ Ideas were adapted and re-checked, not copied. Pulled 2026-11-02.
 | agents-main `plugins/security-scanning/skills/threat-mitigation-mapping` | MIT, same | The three control types: preventive, detective, corrective. The scoring code was not used |
 | agents-main `plugins/backend-api-security/agents/backend-security-coder.md` | MIT, same | Log injection and session fixation, as two controls. Nothing else from that agent |
 | agents-main `plugins/security-compliance/commands/compliance-check.md` | MIT, same | The list of regimes to raise as a question (GDPR, CCPA, HIPAA, PCI DSS). No control code, no policy text |
-| Author's library rules | n/a | Output in chat or the design doc, three modes, ask-first, "Could improve", point at code-review, go, database, design-docs |
+| Author's library rules | n/a | Output in chat or the design doc, three modes, ask-first, "Could improve", point at `review`, go, database, design-docs |
 
 ## What was dropped, and why
 

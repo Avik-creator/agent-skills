@@ -83,7 +83,7 @@ func TestOrderRefund(t *testing.T) {
 
 Why: the cases the user checked by clicking are now the cases the tests check, so the Go provably does what the prototype showed. Edge cases the port adds (input validation, errors from storage) get their own tests on top.
 
-Then run code-review on the result.
+Then run `review` on the result.
 
 ## Don't
 - Add tests to the prototype itself. Why: tests make it real code, and it is meant to be thrown away.

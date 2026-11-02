@@ -110,14 +110,14 @@ The Cursor sweep reports for 2026-11-02 are in the session scratch folder (`swee
 - Edits before approval: `npm audit fix --force`, `ncu -u`, Renovate automerge, the codebase-wide sweep in golang-modernize, a regex rewrite across all files.
 - `// REFACTOR(step N)` plan comments in code, and a `.modernize` file written into the project.
 - Prescriptions for SOLID interfaces, dependency injection, design patterns, gateways and circuit breakers. Framework migrations.
-- Extracting on two copies (code-simplification). The library's own `code-review/references/checks.md:58` said the same and was changed to the third copy.
+- Extracting on two copies (code-simplification). The library's own `review/references/checks.md:58` said the same and was changed to the third copy.
 - Broken samples: two code-simplification "after" examples change behaviour (a Map in place of an object, a dropped `async`). The refactor-clean O(n) example doesn't match its "before" and isn't valid Python.
 - The Go-only mechanics: 12 items in `sweep/refactor-go-testability.md`, items 15-26. They are held for the go skill until three facts the sources disagree on are checked: generic methods in Go 1.27, `encoding/json/v2` as the default, and `go test` coverage of packages without tests.
 
 ## Also changed in this round
 - `coding`: new behaviour in uncovered code goes in a new tested function (golang-refactoring catalog.md:189-198).
 - `testing`: pull a pure calculation out of I/O only when a test needs it (qa-skills `ai-qa-review/references/testability-refactors.md:21,52`).
-- `code-review`: checks.md:58 now uses the third copy, and the description points a repo-wide cleanup to refactor.
+- `review`: checks.md:58 now uses the third copy, and the description points a repo-wide cleanup to refactor.
 
 ## Refresh
 1. Re-read the upstream files above.

@@ -4,7 +4,7 @@ Read at SKILL.md step 2. Every item gets an answer: done (with the evidence), no
 
 ## Gate
 - **It ran.** The changed behaviour was run, not only compiled or type-checked. Give the command and what it showed. A pass that came only on a retry, or a result left by an earlier run, is not a pass. Report anything failed, skipped, blocked or not run as that, never as done. A UI change is checked in a real browser with the automation skill, where installed.
-- **Tests.** The new behaviour has a test that fails without the change; a proof test from code-review counts. The full suite passes. Give the command.
+- **Tests.** The new behaviour has a test that fails without the change; a proof test from `review` counts. The full suite passes. Give the command.
 - **Checks.** The project's own lint, type and format commands pass. For Go, the go skill's checks.
 - **Scope.** Every changed line traces to the request. No unrelated refactor, no leftover debug output, commented-out code or unused imports. After a rename or a signature change, search for the old name again: zero hits, or each one explained. Re-read the whole diff once before the gate.
 - **Integration.** Migrations, config, environment variables and flags the change needs are in the change or listed in the description. A changed API or schema states what happens to existing callers or data.

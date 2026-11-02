@@ -1,6 +1,6 @@
 # Dependencies and scanning
 
-Read when triaging a finding, adding a dependency, preparing a release, or when the repo has no scanners. A new dependency is also reviewed with code-review's `references/dependencies.md` (maintainer, age, typosquat, license, lockfile diff). Do not repeat that review here.
+Read when triaging a finding, adding a dependency, preparing a release, or when the repo has no scanners. A new dependency is also reviewed with `review`'s `references/dependencies.md` (maintainer, age, typosquat, license, lockfile diff). Do not repeat that review here.
 
 ## Triage
 

@@ -27,7 +27,7 @@ Route the request to the fewest skills that do it, then follow those skills. Thi
 | Write tests for a change, fix a flaky test, "what could break here" | `testing` |
 | Manual test cases, QA coverage, how to test a flow by hand | `test-cases` |
 | Find why something fails: a crash, wrong result, red CI, a production error | `debug` |
-| Review a diff, a branch or a pull request | `code-review` |
+| Review a diff, a branch or a pull request | `review` |
 | Refactor, clean up, deduplicate, or standardize an area | `refactor` |
 | Talk through an idea, a PRD, a spec, a system design, an architecture or scale review, a runbook, a README | `design-docs` |
 | A throwaway prototype to answer one design question | `prototype` |
@@ -51,9 +51,9 @@ Read the chosen skill and follow it.
 
 Run the stages in order. Each skill's own stops still hold. Pause for the user's yes before any stage that writes code, pushes, or touches a shared system.
 
-- **Bug:** `debug` finds and proves the cause, and stops. After a yes, `coding` fixes it, with the reproduction test written red first through `testing`. Then `code-review`. Add `test-cases` only when no automated test can reach it.
-- **Feature:** `design-docs` when there is no agreed spec, then `coding`, then `testing`, then `code-review`. `ship` comes when the user wants it pushed.
-- **Release:** `code-review`, then `ship`. Ship's done gate, its interview, and `writing-pr` for the description all run inside `ship`. A migration follows `database` and ship's deploy notes.
+- **Bug:** `debug` finds and proves the cause, and stops. After a yes, `coding` fixes it, with the reproduction test written red first through `testing`. Then `review`. Add `test-cases` only when no automated test can reach it.
+- **Feature:** `design-docs` when there is no agreed spec, then `coding`, then `testing`, then `review`. `ship` comes when the user wants it pushed.
+- **Release:** `review`, then `ship`. Ship's done gate, its interview, and `writing-pr` for the description all run inside `ship`. A migration follows `database` and ship's deploy notes.
 - **Cleanup:** `refactor`, which applies each approved step through `coding`.
 - **Design:** `design-docs` for the system design, then a spec in `design-docs` if one is still needed, then `coding` after approval. `prototype` first when one question needs trying before deciding.
 - **Slow:** `observability` measures it first. `database` for a slow query. Then `coding` for the change the measurement points to.
@@ -62,7 +62,7 @@ Run the stages in order. Each skill's own stops still hold. Pause for the user's
 ## Limits that hold across chains
 
 - `debug` and `refactor` change no code until the user says yes.
-- `code-review` fixes proven findings only in the user's own work, and asks first before a schema, API, security or user-visible change. Someone else's PR is report-only.
+- `review` fixes proven findings only in the user's own work, and asks first before a schema, API, security or user-visible change. Someone else's PR is report-only.
 - `ship` opens the PR or MR and stops. The user merges, deploys and tags.
 - `design-docs` doesn't write code.
 - No skill pushes to the default branch or writes to production.

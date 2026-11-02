@@ -1,6 +1,6 @@
 ---
 name: ship
-description: Takes a finished change to an open pull or merge request, then stops so the user merges and releases. Runs self-review and a done gate, scans the diff for a lowered bar (new suppressions, skipped or deleted tests, removed assertions, stubs), commits in logical pieces, then interviews the user about the feature and checks each answer against the code before anything is pushed; a pre-push hook asks for the interview on every push. Use when the user says ship it, ready to ship, wrap this up, we're done, push this, open a PR or MR, create a merge request, or asks for a rollback plan, a deploy or release checklist, a version bump, a tag or a changelog, or to clean up after a merge. Not for reviewing someone else's PR - use code-review; not for adding telemetry or alerts - use observability.
+description: Takes a finished change to an open pull or merge request, then stops so the user merges and releases. Runs self-review and a done gate, scans the diff for a lowered bar (new suppressions, skipped or deleted tests, removed assertions, stubs), commits in logical pieces, then interviews the user about the feature and checks each answer against the code before anything is pushed; a pre-push hook asks for the interview on every push. Use when the user says ship it, ready to ship, wrap this up, we're done, push this, open a PR or MR, create a merge request, or asks for a rollback plan, a deploy or release checklist, a version bump, a tag or a changelog, or to clean up after a merge. Not for reviewing someone else's PR - use `review`; not for adding telemetry or alerts - use observability.
 ---
 
 # Ship
@@ -10,7 +10,7 @@ Nothing leaves this machine until the change is checked, the bar is intact, and 
 ## Quick start
 
 1. Check the state, and install the hook once per repo after a yes.
-2. Self-review with code-review, then the done gate and `scripts/bar-guard`.
+2. Self-review with `review`, then the done gate and `scripts/bar-guard`.
 3. Show the commit plan; commit after a yes.
 4. Interview the user ([interview.md](references/interview.md)) and write the record.
 5. Show the push and the PR or MR; run them after a yes. Stop.
@@ -23,7 +23,7 @@ Nothing leaves this machine until the change is checked, the bar is intact, and 
 - No hook yet: offer it once, as [hook.md](references/hook.md) says. Why: it is a change to the user's repo setup.
 
 ### 2. Self-review and the done gate
-- Run code-review on the change if it has not run since the last edit. Fix its Blockers and Fixes as it says.
+- Run `review` on the change if it has not run since the last edit. Fix its Blockers and Fixes as it says.
 - Walk the done gate in [done.md](references/done.md). Report each item as done, not applicable (with the reason), or missing.
 - Run `scripts/bar-guard`. Each hit is shown to the user with a reason or fixed; none is dropped quietly. Why: a red check turned green by silencing it is the cheapest way to lower the bar.
 
@@ -53,7 +53,7 @@ When the user says it is merged, list what to clean up: the local branch, worktr
 ## Example
 
 User: "Ship it." Branch `fix/retry-dupes`, 3 files changed.
-1. code-review: clean. Done gate: all done; docs not applicable (no visible change). `bar-guard`: one hit, `t.Skip` in `retry_test.go`. Asked; the user says remove it; removed, tests pass.
+1. `review`: clean. Done gate: all done; docs not applicable (no visible change). `bar-guard`: one hit, `t.Skip` in `retry_test.go`. Asked; the user says remove it; removed, tests pass.
 2. Commit plan: 1 commit, "fix: make webhook retries idempotent". Yes, committed.
 3. Interview: 7 questions, 5 right, 1 partly, 1 wrong (the retry cap is 3 in `retry.go:41`, not 5). Record written.
 4. Showed `git push -u origin fix/retry-dupes` and the PR text. Yes: pushed, PR opened. Stopped.

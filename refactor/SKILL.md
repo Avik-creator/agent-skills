@@ -6,7 +6,7 @@ description: >-
   applies approved fixes one behaviour-preserving step at a time. Use when
   asked to refactor, clean up, standardize, deduplicate, remove dead code, or
   make an area consistent. Not for a security audit - use security; not for
-  reviewing one pull request - use code-review; not for a new feature or a
+  reviewing one pull request - use `review`; not for a new feature or a
   bug fix - use coding.
 ---
 

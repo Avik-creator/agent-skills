@@ -1,6 +1,6 @@
 ---
 name: security
-description: Threat-models a change that crosses a trust boundary, turns each abuse case into a failing test, triages a scanner or advisory finding, and writes a design review into the design doc. Use when adding or changing auth, login, sessions, cookies, passwords, tokens, JWT, permissions, roles, user input, file uploads, webhooks, a fetch of a user-supplied URL, secrets, API keys, CORS, CSRF, XSS, SQL injection, a vulnerability, a CVE, a dependency or npm audit finding, a threat model, personal data, PII, GDPR, or an LLM feature that handles untrusted text, or when the user asks whether something is secure. Not for reviewing a whole diff - use code-review; not for Go-specific APIs - use go; not for SQL or schema design - use database.
+description: Threat-models a change that crosses a trust boundary, turns each abuse case into a failing test, triages a scanner or advisory finding, and writes a design review into the design doc. Use when adding or changing auth, login, sessions, cookies, passwords, tokens, JWT, permissions, roles, user input, file uploads, webhooks, a fetch of a user-supplied URL, secrets, API keys, CORS, CSRF, XSS, SQL injection, a vulnerability, a CVE, a dependency or npm audit finding, a threat model, personal data, PII, GDPR, or an LLM feature that handles untrusted text, or when the user asks whether something is secure. Not for reviewing a whole diff - use `review`; not for Go-specific APIs - use go; not for SQL or schema design - use database.
 ---
 
 # Security
