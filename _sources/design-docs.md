@@ -14,3 +14,15 @@ Merged on 2026-11-02 from four skills the user pasted in chat. Their upstreams a
 
 ## Added 2026-11-02 (source sweep)
 From wshobson/agents `incident-response/incident-runbook-templates`, `documentation-standards/grounded-vault`, `c4-architecture`, and addyosmani/agent-skills `documentation-and-adrs`, `spec-driven-development`: runbook preconditions and what to do when a command fails; numbers must be in the cited source; keep qualifiers when editing; stop a diagram at the zoom that answers the question; split work into pieces that ship alone.
+
+## Added 2026-11-02: screening the shape (references/system-design.md)
+From pstack's `architect` skill and its `references/design-red-flags.md` in [cursor/plugins](https://github.com/cursor/plugins) (MIT, Copyright (c) 2026 Lauren Tan), read in full from the downloaded `plugins-main` folder.
+- **Taken:**
+  - the eight red flags: shallow module, information leakage, temporal decomposition, pass-through method, split ownership, two ways to do one task, importable internals, hand-synced list
+  - designing it twice, with structurally different candidates
+  - preferring the smaller interface when two shapes pass
+  - the assumption that the next contributor sees only one file and copies the nearest example
+- **Dropped:**
+  - the multi-model `arena` synthesis and the Cursor model lines
+  - sketching `not implemented` code, and implementing straight after with no checkpoint. Here the design is a document, and building waits for the user's approval.
+  - the "scrap the sketch" phase, which belongs to coding rather than to a design document
