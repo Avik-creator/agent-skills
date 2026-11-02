@@ -17,6 +17,7 @@ A skill works only if its description makes the agent load it at the right momen
 ## Workflow
 
 ### 1. Capture intent
+- Editing an existing skill: read its `struggles/` notes first (see Struggle notes below).
 - Mine the conversation, memory and past corrections before asking anything; a correction the user repeated is the strongest rule you have.
 - Ask only what is left: what it does, when it triggers, what the output looks like, what it is not for.
 - Restate the intent and get a yes before drafting; a wrong restatement is cheap, a wrong skill is not.
@@ -64,6 +65,14 @@ Follow [EVALS.md](EVALS.md): cases with must and must-not written first, three a
 - Read the transcripts, not just the outputs; cut any section that sent the agent down a wasted path.
 - Try 2-3 near-miss prompts that share keywords but should not load the skill.
 - Fix a failure by sharpening the reason, not by adding a MUST for that one case; rerun until the user is happy.
+
+## Struggle notes
+When a skill goes wrong in real use (it didn't load, loaded for the wrong request, a rule misled the agent, a case was missing, or two rules conflicted), tell the user in one line what happened and why. Then add `<skill>/struggles/<YYYY-MM-DD>-<slug>.md` with:
+- the request, what the skill made the agent do, and what should have happened
+- why it went wrong, with the transcript line or output as evidence
+- the change to the skill you would propose
+
+Git ignores `struggles/`, because the notes come from real projects. Change the skill only after a yes, as a normal generic edit, then add "Fixed in <commit or PR>" to the note.
 
 ## Review checklist
 - [ ] Description: third person, what + `Use when ...`, max 1024 chars

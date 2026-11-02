@@ -36,6 +36,10 @@ ln -s "$PWD/debug" ~/.claude/skills/debug
 
 Install the skills you want. Several hand work to each other by name (`debug` to `coding`, `ship` to `writing-pr`), and they say "where installed" when another skill is optional.
 
+## Struggle notes
+
+A skill may have a local `struggles/` folder of notes on where it went wrong in real use. Git ignores it. [writing-skills](writing-skills/SKILL.md) says what goes in a note.
+
 ## Sources
 
 `_sources/<skill>.md` records, for each skill, the upstream material it adapted, what was changed or dropped, and how its facts were checked. Third-party licences are in [NOTICE.md](NOTICE.md).
