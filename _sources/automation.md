@@ -11,3 +11,6 @@ Checked on 2026-11-02. The tools' own guides are loaded at run time, never copie
 | Decisions made with the user in chat | - | SKILL.md: tool order, ask before desktop control, safety limits, the user installs tools, the report |
 
 Notes: the install guide linked from the pasted skill (`browser-harness/install.md`) names the older `browser-harness` command. The current CLI is `browser-use`, installed with uv, then `browser-use skill install`.
+
+## Added 2026-11-03
+- The "Not for" line points to `prove` for checking a change against an answer key.

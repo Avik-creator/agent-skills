@@ -52,3 +52,6 @@ From two skills in [cursor/plugins](https://github.com/cursor/plugins), both MIT
   - blast-radius's five-level certainty ladder; proof.md's proof rule replaces it
   - its multi-model `arena` run, and its Solid and React timing examples
 - The `thermos` skill, which launches both thermo reviews in parallel, adds nothing beyond the two-reviewer split in reviewer-brief.md.
+
+## Added 2026-11-03
+- The "Not for" line points to `prove` for checking a change against an answer key.
