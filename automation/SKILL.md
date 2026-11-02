@@ -61,3 +61,7 @@ User: "Check the signup form I just fixed."
 1. `browser-use --doctor` reports that Chrome isn't reachable. Say so, and switch to agent-browser.
 2. Open `http://localhost:3000/signup`, submit it empty, then with a bad email, then with valid details.
 3. Report: "Empty: shows 'Email is required' - pass. Bad email: no message, button stays disabled - fail (screenshot). Valid: account created - pass. Used agent-browser because browser-use couldn't reach Chrome. Left behind: test account test+1@example.com."
+
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.

@@ -52,6 +52,8 @@ When the request, spec, and code disagree, stop and name both sides. Do not pick
 
 ## Replies
 
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 Say what you skipped and when to add it, and which rung you used.
 
 When stopping mid-task, write down the decisions made, what is next, the files and commit state, the commands run with their results, and the open questions.

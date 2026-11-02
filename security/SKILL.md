@@ -53,6 +53,10 @@ A printed name is a file to open before you commit. Why: the check must not copy
 - The threat model, the triage, or the design-doc section.
 - **Could improve:** each gap with a one-line setup. Propose it, and apply it after a yes.
 
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 ## References
 
 | File | Read when |

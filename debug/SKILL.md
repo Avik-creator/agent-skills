@@ -63,6 +63,8 @@ Name the symptom, then the source. A local workaround is not a cause.
 
 ## Replies
 
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 Say the cause, or the hypothesis still open.
 
 When stopping mid-task, write down the symptom, what was tried and ruled out, what is still unknown, and the next check.

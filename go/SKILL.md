@@ -51,6 +51,10 @@ go mod tidy && git diff --exit-code go.mod go.sum
 - What you didn't verify, and any repo convention you followed instead of a default.
 - **Could improve**: a short list of gaps found, each with the one-line fix, applied only after a yes. Examples: CI runs tests without `-race`; no lint config; CI never runs govulncheck; the `go` line is old and the CLI shows idioms that a newer one unlocks; a dependency with a stdlib replacement.
 
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 ## References
 Read only the file the task needs.
 

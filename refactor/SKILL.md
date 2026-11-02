@@ -89,6 +89,8 @@ Never claim lines saved or speed gained, and never call a partial audit complete
 
 ## Replies
 
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 Say how many findings and what needs approval next. After a batch, say what changed and what failed.
 
 ## References

@@ -47,7 +47,7 @@ A review is worth what it proves. A fresh reviewer reads what the code does, not
 - Then remove the copies you made (`git worktree remove --force <path>`, only those paths). Why: each one is a full checkout left on disk.
 
 ### 5. Report
-Use the format below, in chat. Zero findings is a valid result; don't invent one. Leave out an empty section.
+Use the format below, in chat. Zero findings is a valid result; don't invent one. Leave out an empty section. Write the report and every reply in simple English: short sentences and everyday words, with a technical term explained the first time it appears.
 
 ### 6. After the report
 - **Your own work**: fix every Blocker and Fix, then re-run each proof, which should now pass. Keep a proof test as the regression test in your change. Why: it is a test already seen failing before the fix. Large fixes get a fresh review of the new code. Ask before a fix that changes a schema, an API, security behaviour or what users see.

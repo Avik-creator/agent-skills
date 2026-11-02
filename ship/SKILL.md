@@ -58,6 +58,10 @@ User: "Ship it." Branch `fix/retry-dupes`, 3 files changed.
 3. Interview: 7 questions, 5 right, 1 partly, 1 wrong (the retry cap is 3 in `retry.go:41`, not 5). Record written.
 4. Showed `git push -u origin fix/retry-dupes` and the PR text. Yes: pushed, PR opened. Stopped.
 
+## Replies
+
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 ## References
 
 - [references/interview.md](references/interview.md) - read before the interview, and for a short re-interview after new commits.

@@ -69,4 +69,6 @@ Run the stages in order. Each skill's own stops still hold. Pause for the user's
 
 ## Replies
 
+Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 Name the skill or chain in one line, then run the first stage.

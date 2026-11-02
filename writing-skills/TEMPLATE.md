@@ -33,6 +33,10 @@ description: <What it does, concretely>. Use when <phrases, contexts, file types
 
 - <Known trap> - <what to do instead>.
 
+## Replies
+
+<How the agent reports in chat.> Talk to the user in simple English: short sentences, everyday words, and a technical term only where it is needed, explained the first time it appears.
+
 ## References
 
 - [references/<topic>.md](references/<topic>.md) - read when <condition>.
