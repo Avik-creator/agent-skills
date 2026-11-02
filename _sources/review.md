@@ -17,3 +17,6 @@ Dropped on purpose: team-culture advice (praise, rapport, review speed), Python 
 
 ## Added 2026-11-02 (source sweep)
 From wshobson/agents `review-agent-governance` (`ai-debt-detector`): resources opened and not closed on every path, and calls that don't exist in the locked dependency version.
+
+## Renamed 2026-11-02
+The skill was called `code-review` until 2026-11-02. It was renamed to `review` because the old name collided with Claude Code's built-in `/code-review` command.

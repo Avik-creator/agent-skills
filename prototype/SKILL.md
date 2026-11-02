@@ -35,7 +35,7 @@ If it is unclear and the user is reachable, ask. If not, pick by the code it sit
   EX="$(git rev-parse --git-common-dir)/info/exclude"
   for p in '.prototype/' '*.prototype.*'; do grep -qxF "$p" "$EX" || echo "$p" >> "$EX"; done
   ```
-  Why: it changes no file in the repo, and `git status` and code-review both skip excluded files. Not a git repo: skip this step.
+  Why: it changes no file in the repo, and `git status` and `review` both skip excluded files. Not a git repo: skip this step.
 - `NOTES.md` holds the question, the plan, every file outside `.prototype/` you touched, and later the verdict.
 
 ## Rules for both branches
@@ -45,11 +45,11 @@ If it is unclear and the user is reachable, ask. If not, pick by the code it sit
 - **Skip the polish.** No tests, no error handling beyond what makes it run, no abstractions. Why: the point is to learn fast, and the real code gets written properly later.
 - **Show the state.** Render the full relevant state after every action (logic) or on every variant switch (UI), so the user sees what changed.
 - **Easy to start.** Logic: one HTML file opened by double-click. UI: the project's normal dev command plus a URL.
-- **Not code-reviewed.** Prototype files and the host page wiring are not real work, so skip code-review and say so at handover. It runs when the answer moves into real code.
+- **Not code-reviewed.** Prototype files and the host page wiring are not real work, so skip `review` and say so at handover. It runs when the answer moves into real code.
 
 ## Capture the answer
 When the prototype has answered its question:
-1. Write the verdict and the question it settled in `NOTES.md`, and add it to the design-docs decided list or design write-up if there is one. Why: code-review checks real code against those decisions, so the review proves the code matches what the prototype showed.
+1. Write the verdict and the question it settled in `NOTES.md`, and add it to the design-docs decided list or design write-up if there is one. Why: `review` checks real code against those decisions, so the review proves the code matches what the prototype showed.
 2. Ask the user: keep the files on a local branch, or delete them? To keep them, run the recipe below, and commit only after that yes.
 3. Undo any edit to a file outside `.prototype/` (the host page wiring), using the list in `NOTES.md`.
 4. Comment on an issue or PR only when the user asks.
@@ -70,4 +70,4 @@ The branch stays local. Push it only when the user asks.
 ## Moving the answer into real code
 - The answer moves in, never the prototype code. Rewrite it properly.
 - Write the tests first from the prototype's scenarios, watch them fail, then write the code. The details per branch are in each reference.
-- Run code-review on the result before handing it over.
+- Run `review` on the result before handing it over.

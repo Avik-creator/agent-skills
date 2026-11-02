@@ -60,7 +60,7 @@ One small component, named `PrototypeSwitcher.prototype.tsx`, in the folder wher
 Rewrite the winner properly in the page itself. The variant was built without tests or error handling.
 1. Write the tests first for what the user will see and do: the states it shows (loading, empty, error, full), and the main actions. Watch them fail.
 2. Build the winner into the page with real data and real writes.
-3. Run code-review on the result.
+3. Run `review` on the result.
 
 ## Don't
 - Make variants that differ only in colour or copy.

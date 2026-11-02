@@ -1,6 +1,6 @@
 # The error hunt
 
-Read at SKILL.md step 2, and when picking checks in code-review. For each changed function, go down this list and ask "could this be wrong here?". The last column is the break that proves a test catches it (SKILL.md step 5).
+Read at SKILL.md step 2, and when picking checks in `review`. For each changed function, go down this list and ask "could this be wrong here?". The last column is the break that proves a test catches it (SKILL.md step 5).
 
 ## Edge cases, by input type
 Hunt these hardest. Take one value per class, and at every limit the last allowed and the first rejected value.

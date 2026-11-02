@@ -19,7 +19,7 @@ Read while auditing (SKILL.md "What to find"). Each item sharpens one kind of fi
 
 ## Over-engineering
 - An interface with one production implementation is not over-engineering when a test swaps in a stand-in. Check the tests before reporting it.
-- These are not simplifications: inlining a helper whose name explains a concept, or merging two functions that only look alike. The review signals in the code-review skill's `simplify.md` apply here too.
+- These are not simplifications: inlining a helper whose name explains a concept, or merging two functions that only look alike. The review signals in the `review` skill's `simplify.md` apply here too.
 
 ## Performance waste
 - Report it only when the code shows it. Simplifying a path where speed matters needs a measurement showing it isn't slower; without one, leave the path alone.

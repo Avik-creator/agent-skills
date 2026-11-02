@@ -9,7 +9,7 @@ Start with [which-skill](which-skill/SKILL.md) when a request could match more t
 | Skill | What it does |
 |---|---|
 | [automation](automation/SKILL.md) | Drives a real browser or desktop app to test, check or automate anything that needs a real interface - opening pages, clicking through flows, filling forms, taking screenshots, confirming a feature works. |
-| [code-review](code-review/SKILL.md) | Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. |
+| [`review`](review/SKILL.md) | Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. |
 | [coding](coding/SKILL.md) | Use when writing or changing code, including a test that was asked for. |
 | [database](database/SKILL.md) | Designs, writes, reviews and changes database-backed application code safely - tenant-scoped, index-aware queries, keyset pagination, schema and constraint design, zero-downtime migrations, race-free transactions, connection pooling, and careful access to real databases - with detailed Postgres guidance. |
 | [debug](debug/SKILL.md) | Use when asked to diagnose, debug, or find why something fails: a crash, a wrong result, an error in a log or CI run, a test that started failing, a failure that comes and goes, a regression, or an error in production. |

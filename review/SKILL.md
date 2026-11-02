@@ -1,9 +1,9 @@
 ---
-name: code-review
+name: review
 description: Reviews a code change through a fresh subagent that proves each finding - a failing test, a reproduction or a mutation the tests miss for a bug, the quoted rule for a rule breach - and reports proven findings apart from unproven risks and opinions. Checks the change against what it was meant to do (decisions agreed with the user, a design write-up, the PR or issue) and against the repo's own rules. Runs on its own before handing over any change that affects behaviour, and on request for a branch, commit range, pull request or pasted diff. Use when finishing a code, SQL, migration or config change, or when the user asks to review, check or audit a diff, branch or PR, says "review since X", "look over this PR" or "is this ready to merge". Not for checking a change in a real browser - use automation; not for writing tests - use testing; not for a repo-wide cleanup - use refactor.
 ---
 
-# Code Review
+# Review
 
 A review is worth what it proves. A fresh reviewer reads what the code does, not what you meant it to do, and every finding comes with its proof: something that ran, or the exact rule it breaks.
 

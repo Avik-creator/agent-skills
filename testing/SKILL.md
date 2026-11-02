@@ -1,6 +1,6 @@
 ---
 name: testing
-description: Writes automated tests that hunt for errors - edge cases above all, plus logic, structure, state, error-handling and permission errors - and proves each test by making it fail. After feature code it writes the tests and breaks the guarded code to see each one go red; for a bug it writes the reproduction test first and watches it fail before the fix. Covers choosing unit, integration or end-to-end, test doubles, test data, browser tests and flaky tests. Use when writing or fixing tests, adding coverage for a change, after implementing a feature, when fixing a bug, when a test is flaky or a UI test broke, or when the user asks "what could break here" or to check edge cases. Not for listing manual test cases - use test-cases; not for reviewing a diff - use code-review; not for finding why something fails - use debug; Go specifics live in the go skill.
+description: Writes automated tests that hunt for errors - edge cases above all, plus logic, structure, state, error-handling and permission errors - and proves each test by making it fail. After feature code it writes the tests and breaks the guarded code to see each one go red; for a bug it writes the reproduction test first and watches it fail before the fix. Covers choosing unit, integration or end-to-end, test doubles, test data, browser tests and flaky tests. Use when writing or fixing tests, adding coverage for a change, after implementing a feature, when fixing a bug, when a test is flaky or a UI test broke, or when the user asks "what could break here" or to check edge cases. Not for listing manual test cases - use test-cases; not for reviewing a diff - use `review`; not for finding why something fails - use debug; Go specifics live in the go skill.
 ---
 
 # Testing
@@ -39,7 +39,7 @@ Call the automation skill, where installed, whenever seeing the real interface w
 ### 2. Hunt
 - For each changed function, go through [error-hunt.md](references/error-hunt.md): the edge bank by input type, then logic, structure, state, error handling and permissions.
 - Keep a risk only if this code could actually hit it. Say why each skipped one can't happen ("the type system rules out null here"). Why: a test for an impossible case is coverage inflation.
-- A risk you find is wrong in the code right now is a bug: write its failing test, report it, and fix it as code-review says (ask first if the fix changes a schema, an API, security behaviour or what users see).
+- A risk you find is wrong in the code right now is a bug: write its failing test, report it, and fix it as `review` says (ask first if the fix changes a schema, an API, security behaviour or what users see).
 
 ### 3. Pick the level
 - Pure logic: a unit test. Crossing an API, database, filesystem or queue: an integration test against the real thing where it can run locally (the same database engine the project uses). A main user flow only: end-to-end, as [e2e.md](references/e2e.md) says. Edge cases go in the lowest level that sees them, never end-to-end. Why: lower is faster and points at the cause.

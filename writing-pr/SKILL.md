@@ -4,7 +4,7 @@ description: >-
   Use when writing or updating a pull or merge request title or body, adding
   screenshots or a diagram to one, or drafting replies to review comments.
   Not for pushing or opening the PR - use ship; not for reviewing someone
-  else's PR - use code-review.
+  else's PR - use `review`.
 ---
 
 # Writing a PR or MR
