@@ -9,7 +9,7 @@ For each goal, requirement and changed behaviour, settle four things with the us
 - **Surface:** where a real user or program meets it: a page, an API response, a CLI's output and exit code, a row in the database, an email, a message. Check that surface, not the one that is easiest to test. Why: a fully mocked test proves no goal.
 - **Answer key:** what right looks like, written or chosen by someone other than the builder. See the ladder below.
 - **Check:** how the result is compared with the answer key: a script, a scripted user flow, or a fresh agent that never saw the code and gets only the goal.
-- **Pass signal:** the exact result that counts as a pass, such as "status 201 and one new row", or "pixel difference under 3% at 375, 768 and 1440 wide".
+- **Pass signal:** the exact result that counts as a pass, such as "status 201 and one new row", or "pixel difference under 3% at 375, 768 and 1440 wide". For a list, the pass is equality: exactly the expected items, no more and no fewer, and in the expected order when order is part of the goal. Why: "every row shown is a match" still passes a filter that drops rows.
 
 The building agent reading its own diff is not a check.
 
@@ -35,12 +35,14 @@ Which rung fits which change:
 - **Refactor or migration:** 0%. Any difference fails, and the pixel delta is investigated.
 - **New screen against a design export:** the user picks the threshold. Propose 3% at 3 widths.
 - Freeze what moves: fonts, data, time, animations and the browser version. Why: without that, the number is noise.
+- **New UI added to an existing screen** (a row above a list, a banner): no whole-page threshold, because every shifted pixel counts. Compare the unchanged parts as element screenshots at 0%, and check the new part by its own flow.
 
 ## Rules
 
 - Mark each check machine-run or human-judgment. For a human-judgment check, propose one that could replace it. A human-only check stays only if the user confirms it, and it never counts as proof.
 - If a check needs an environment that doesn't exist yet (a test account, a local email catcher, seed data), ask whether to set it up first. Never swap in a weaker check quietly.
 - Answer keys use made-up test data only. Never real names, emails or records.
+- A key computed by the code being built is not a key. Work out expected results with a small standalone script that reads the raw data itself and imports no project code, and save them before the lock. Why: a bug in the helper would grade itself.
 - Changing an answer key later is the user's decision, never the builder's.
 
 ## In the document

@@ -54,3 +54,6 @@ From Ray Amjad's `idea-to-spec` and the Prove It README in ray-amjad/skills (MIT
 - **Dropped:**
   - idea-to-spec's fresh-agent critique of a draft, its GitHub-issue publishing default and its invariants and ADR workflow; this skill already discusses first and asks where to publish
   - the course links and beta notes
+
+## Changed 2026-11-03, found in a test run by a Cursor agent on a real feature (a blog tag filter)
+- proof.md: a list's pass signal is equality; a key computed by the code under test is not a key, so expected results come from a standalone script saved before the lock; new UI on an existing screen is compared by element screenshots of the unchanged parts at 0%, not a whole-page threshold.
