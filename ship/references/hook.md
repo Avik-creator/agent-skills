@@ -3,7 +3,7 @@
 Read at SKILL.md step 1, or when the hook blocks a push.
 
 ## What it does
-On every push of a branch, `scripts/pre-push` reads the record at `<git-common-dir>/ship/<branch>` (`head <sha>`) and decides:
+On every push of a branch that `deliver` marked (a file at `<git-common-dir>/deliver/<branch>`), `scripts/pre-push` reads the record at `<git-common-dir>/ship/<branch>` (`head <sha>`) and decides:
 
 | State | Result |
 |---|---|
@@ -12,17 +12,17 @@ On every push of a branch, `scripts/pre-push` reads the record at `<git-common-d
 | New commits since the recorded one | Blocked, and lists them; run the short re-interview |
 | Rebased or amended, but the same change against the default branch (same `git patch-id`) | Pushed, and the record moves to the new commit |
 | Rewritten, and the change differs | Blocked |
-| Tags, and deleting a branch | Not checked |
+| Tags, deleting a branch, and any branch deliver did not mark | Not checked |
 
 `SHIP_SKIP=1 git push` skips the check for one push. That is the user's choice; the agent never suggests it. The record and the hook live inside `.git/`, so nothing is committed and teammates are not affected.
 
 ## The global hooks
-The library's `_hooks/` folder holds one `pre-push` for every repo on the machine. It runs this check and prove's, then the repo's own `pre-push` hook. Its other files pass every other hook (`pre-commit`, `commit-msg` and the rest) to the repo's own hook, so no repo loses a hook.
+The library's `_hooks/` folder holds one `pre-push` for every repo on the machine. On branches deliver marked it runs this check and prove's; on every push it then runs the repo's own `pre-push` hook. Its other files pass every other hook (`pre-commit`, `commit-msg` and the rest) to the repo's own hook, so no repo loses a hook.
 ```bash
 <skill dir>/../_hooks/install          # turn on: sets git's global core.hooksPath to that folder; repeating it changes nothing
 <skill dir>/../_hooks/install check    # is it active in this repo?
 ```
-- Run `install` at the start of every ship run, without asking: it changes only the global git setting, and the user asked for every push to be checked. Tell the user in one line when it turned the hooks on.
+- Run `install` at the start of every ship run, without asking: it changes only the global git setting, and it checks only branches deliver marked, so other pushes are untouched. Tell the user in one line when it turned the hooks on.
 - Exit 3: the global `core.hooksPath` already points somewhere else. Nothing was changed. Ask the user which one should win.
 - `install check` fails with "this repo sets its own core.hooksPath": a hook manager (husky, lefthook) owns this repo's hooks, and the global hooks don't run here. See below.
 - An older per-repo install (a `pre-push` with `ship-wrapper` in it) makes the check run twice. Remove it as below.
