@@ -1,3 +1,29 @@
+# This folder also holds skills from other sources; git tracks only this repo's files.
+/*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/NOTICE.md
+!/_sources/
+!/automation/
+!/coding/
+!/database/
+!/debug/
+!/design-docs/
+!/go/
+!/observability/
+!/prototype/
+!/refactor/
+!/review/
+!/security/
+!/ship/
+!/test-cases/
+!/testing/
+!/which-skill/
+!/writing-pr/
+!/writing-skills/
 .DS_Store
+# Notes on where a skill went wrong; they come from real projects, so they stay local.
+struggles/
 # Third-party viewer; download steps in database/references/postgres/links.md.
 database/assets/pev2.html
