@@ -15,7 +15,7 @@ Each step calls these skills, in this order. Why: the user should know what runs
 | 1. Ask | `design-docs` (interview.md, proof.md); `prove` (setup.md) when the repo has no verifier | Reads the repo, asks one decision at a time, settles each goal's proof | The decided list and the Proof table | Each question (this step is the asking) |
 | 2. Prototype | `prototype` | Builds screen variants or a clickable logic demo, unless the rule in step 2 skips it | The chosen variant and its scenarios | The user picks a variant |
 | 3. Play back | `prove` (`scripts/init`, `scripts/keys`) | One message with the whole plan; after a yes, creates the branch if step 2 didn't, saves and locks the keys | Locked keys in `.prove/keys/<task>/` | The user confirms |
-| 4. Build and test | `coding` and `testing`; `go`, `database`, `security`, `observability` alongside where `which-skill` says | Small steps, each one checked, committed in order | Commits on the branch | A change outside the stop-and-ask list, or a key looks wrong |
+| 4. Build and test | `coding` and `testing`; `go`, `database`, `security`, `observability` alongside where `which-skill` says; `prove` (methods.md, checker.md) for each step's check | Small steps, each one a build, check, fix loop until a locked script or a fresh agent passes it; committed in order | Commits on the branch | A change outside the stop-and-ask list, a key looks wrong, or a step still fails after 3 fixes |
 | 5. Prove | `prove`, with `automation` to drive a browser | Drives every touched flow, a fresh agent gives the verdict, writes the receipt | A PROVED receipt for the commit | BLOCKED, UNPROVEN, or the fix rounds run out |
 | 6. Review | `review` | A fresh reviewer proves each finding; fixes are committed, then `prove` runs again | A clean review and a new receipt | A fix needs a schema, API, security or user-visible change |
 | 7. Open the PR | `ship`, with `writing-pr` for the description | Done gate, bar-guard, commit plan, interview, push, PR | The open PR | Always: the commit plan and the push each need a yes; the interview runs unless the user skips it |
@@ -45,13 +45,24 @@ Send one message with everything:
 - the Proof table: one row per check, with surface, key and rung, check, and pass signal
 - the prototype verdict, or why there was none, and any flow left not covered on purpose
 - the stop-and-ask list, and the choices left to the agent (names, file layout, test framework)
+- who judges build steps in step 4: a subagent or another agent's CLI (`cli:<name>`). If neither runs here, step 4 judges with scripts only and the fresh-agent check waits for step 5; say so. Why: the build loop must never wait on the user
 - numbered defaults the user can veto, such as "pixel threshold 3% at 375, 768, 1440"
 
-Write nothing until the user confirms. A hedged answer ("I guess", "probably") is not a yes. Then run prove's `scripts/init`, save the keys in `.prove/keys/<task>/` (`plan.md`, base-commit and design snapshots, the prototype notes, locked checks), and run `scripts/keys lock <task>`. Why: a key saved after the lock blocks the run, and a locked key can't be lowered quietly. The yes also covers the verifier, and the branch if step 2 didn't create it.
+Write nothing until the user confirms. A hedged answer ("I guess", "probably") is not a yes. The yes covers the verifier, and the branch if step 2 didn't create it. Then, in this order, so the bar is set and tested before any code:
+1. Run prove's `scripts/init`, write the verifier if it is new, and save the keys in `.prove/keys/<task>/`: `plan.md`, base-commit and design snapshots, the prototype notes, locked checks, and the screenshot script with its freeze step. Why: step 4 must capture exactly as the keys did, or every diff is noise.
+2. A fresh agent opens every snapshot and confirms it shows what it claims: the right page and width, nothing blank, nothing mid-animation. A bad base-commit snapshot is retaken and checked again; a bad design export goes to the user. Why: a blank key passes against a blank build.
+3. Prove the checks can fail: a new verifier says BROKEN on a broken copy (prove's setup.md step 5); a check for a new flow fails on the base commit; a check of what must stay the same fails on a broken copy. Why: a check never seen failing turns the loop green for free.
+4. Run `scripts/keys lock <task>`. Why: a key saved after the lock blocks the run, and a locked key can't be lowered quietly.
+
+If the snapshot check (item 2) or the failing proof (item 3) still fails after one retry, or a fix would change a method the user chose, stop and ask.
 
 ## 4. Build and test
 - Work on a branch, never the default branch. Follow `coding`, with `go`, `database` or `security` alongside where `which-skill` says, and write the tests with `testing`. Why: those skills own the rules for each kind of code.
-- Split the work into small steps that each end in a state you can check, and run that check before the next step. Why: a break found at the step that caused it is cheap to find.
+- **Every step runs as a loop, with no user in it: build, check, fix, check again.** Split the work into small steps that each end in a state you can check. Why: a break found at the step that caused it is cheap to find.
+  - Before building a step, name the Proof-table rows (or parts of a row) it finishes. Why: the judge grades against the user's rows, never a goal the builder wrote.
+  - Build it, then run the checks for those rows, plus every check of what must stay the same (the tests so far, the 0% screenshots of unchanged parts). Checks for rows not yet reached don't count. A screen step (anything that changes what a screen shows, shared CSS and components included) adds screenshots with the locked screenshot script and the pixel compare where the row has a pixel key. A step that adds a reproduction test passes when that test fails on the unfixed code for the bug's reason.
+  - A failing script is the FAIL note. When every script passes, a new fresh agent judges, unless locked scripts fully cover the rows (never a pixel diff alone). The agent gets only the rows, their keys and the evidence (output, responses, screenshots, diff image), never the fix notes, and returns PASS or FAIL with exactly what is wrong. Why: a judge that sees the fix notes grades the intent. A step that finishes no row is checked by the build and the tests, and judged with the next step that does.
+  - On FAIL, fix from the note and check again; at most 3 fixes after the first FAIL, matching prove, then stop and ask. Why: the builder never judges its own work, and a passing number alone can't tell a blank page or an empty list from a right one.
 - Order commits so they prove themselves: for a bug, the failing test first and the fix on top. Why: a reviewer sees it fail, then pass.
 - Never edit an answer key. `verifier.md` changes only through prove's drift rule, reported to the user. If a key looks wrong, stop and ask. Why: the builder must never set its own bar.
 - Write down each judgment call (a name, a trade-off, an edge case handled) for the final report.
@@ -60,13 +71,13 @@ Write nothing until the user confirms. A hedged answer ("I guess", "probably") i
 Run `prove` on the committed head. Its rules decide the fix rounds for a BROKEN flow. BLOCKED or UNPROVEN means stop and tell the user what is missing. Why: a weaker check that passes reads as proof.
 
 ## 6. Review
-Run `review` on the branch. If its fixes change code, commit them and run `prove` again. Why: the push gate needs a receipt for the exact commit being pushed.
+Run `review` on the branch. If its fixes change code, make all of them and commit them, then run `prove` once on the new head. Why: the push gate needs a receipt for the exact commit being pushed.
 
 ## 7. Open the PR
 Run `ship`. Its commit plan, interview and push are the last questions, kept on purpose. The user may skip the interview, as `ship` says; the agent never skips it unasked. Any commit made inside `ship` (a bar-guard fix, an interview fix) means `prove` runs again before the push. For a visual change, the before and after screenshots from the prove run go in the PR's before-and-after table, after a yes. Stop at the open PR; the user merges.
 
 ## When to stop and ask
-Only when: a decision isn't in the playback, a change is outside the stop-and-ask list, a key and the app disagree, a check is BLOCKED or UNPROVEN, or the fix rounds ran out. Ask one question with a recommended answer, then carry on.
+Only when: a decision isn't in the playback, a change is outside the stop-and-ask list, a key and the app disagree, a check is BLOCKED or UNPROVEN, the fix rounds ran out (prove's, or a build step's), or a snapshot or the failing proof still fails before the lock. Ask one question with a recommended answer, then carry on.
 
 ## Example
 User: "Deliver a CSV export on the orders page."

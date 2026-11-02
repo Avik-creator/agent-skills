@@ -4,7 +4,7 @@ Read before every verdict. The agent that built the change shares its blind spot
 
 ## Who checks, in this order
 Use the first one available, and write which one in the receipt's `checker` line.
-1. **`script`:** every flow in scope is fully covered by scripted checks saved in `keys/<task>/checks/` before the lock, each with a pass signal. Why: a check the builder wrote during the same task is the builder judging itself. Otherwise a fresh agent judges.
+1. **`script`:** every flow in scope is fully covered by scripted checks saved in `keys/<task>/checks/` before the lock, each with a pass signal. Why: a check the builder wrote during the same task is the builder judging itself. Otherwise a fresh agent judges. A pixel diff never counts as `script` on its own: a fresh agent still opens the images, as answer-keys.md says.
 2. **`subagent`:** a new subagent with fresh context, where the agent supports them.
 3. **`cli:<name>`:** another agent's CLI run headless with only the brief, for example `codex exec` or `claude -p`, or any other agent's non-interactive mode. A different model from the builder catches more.
 4. **`session`:** write the brief to `runs/<run>/brief.md` and ask the user to paste it into a new session, then read its answer.
@@ -45,3 +45,4 @@ not covered: <flow> - <why> - <what would unlock it> [(agreed)]
 - **A screen:** numbered screenshots or a recording of the flow, at each width the plan names.
 - **An API or job:** the real request, response and a stored-state query in one text file (`... 2>&1 | tee runs/<run>/flow-<n>.txt`).
 - **Always:** a read-back of the data that should have changed, not only a success message.
+- Name evidence files so no two differ only in letter case (use the flow number: `flow-3-go.json` and `flow-4-go-caps.json`, never `flow-go.json` beside `flow-GO.json`). Why: macOS and Windows file systems ignore case, so one file overwrites the other.

@@ -10,7 +10,7 @@ Read when picking how to check a surface. Rewrite "catches" and "misses" in this
 | **Stored-state check** (SQL, the file, the bucket, the cache key) | "saved" on screen with nothing written, partial writes, duplicates | whether a user can see it; pair it with a drive | low with a local store |
 | **Log and error scan** during the drive | errors turned into a 200 or a blank screen, retries, slow queries | logic bugs that log nothing | near zero |
 | **Side-effect capture** (local email catcher, webhook listener, queue tap) | "sent" that never sent, wrong recipient, wrong payload | real delivery by the provider | medium setup; cheap per run |
-| **Snapshot or pixel diff** against a saved good result | any change from the known good state | what the snapshot never covered | low once the baseline exists |
+| **Snapshot or pixel diff** against a saved good result: assert equal dimensions, then compare decoded pixels (pixelmatch or similar), never file bytes (the same pixels can encode to different bytes) | any change from the known good state | what the snapshot never covered | low once the baseline exists |
 | **Parity** with an old system or a sibling surface | drift in a port or refactor; a new surface that disagrees with the trusted one | bugs both share | the old system runs beside the new one; about twice the drive |
 
 ## Making checks catch real bugs

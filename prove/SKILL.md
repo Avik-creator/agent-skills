@@ -36,7 +36,7 @@ Why local: nothing from a real project leaves the machine, and teammates get no 
 7. **Receipt and cleanup:** write `runs/<run>/receipt.md` as checker.md shows, stop only what this run started, then confirm the evidence is still there.
 
 ## Verdicts
-- **PROVED:** every flow showed its pass signal, judged by a fresh agent or a locked script.
+- **PROVED:** every flow showed its pass signal, judged by a fresh agent or a locked script (never a pixel diff alone).
 - **BROKEN:** the app did something wrong. Report what, with evidence.
 - **BLOCKED:** the check couldn't run. Never put a weaker check in its place. Why: a weaker check that passes reads as proof.
 - **UNPROVEN:** no answer key, only the builder judged it, or a flow wasn't covered and the user didn't agree to that.
