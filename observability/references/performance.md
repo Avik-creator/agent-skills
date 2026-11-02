@@ -31,6 +31,28 @@ Measure that thing. A profiler you happened to have open is not the measurement.
 
 Put the before and after numbers in the commit or the PR. An optimization that wins by skipping a check the product needs is a revert even when the number moved.
 
+## Before trusting a number
+
+Write the claim you expect to ship before you run ("export is 30% faster at p50 on the 60k-row dataset"). The checks below test that sentence. For a quick ballpark the user asked for, one run can stand if you still count errors and confirm the work ran; say that it is one run. A choice between options is never a ballpark.
+
+Read the measurement script first: what it times, counts, and ignores. Check machine load with `uptime` and the core count. If the machine is busy and you cannot stop the load, alternate the sides so both see the same noise, and say so.
+
+Name the limiter ("why not twice as fast?"): CPU per process, a profiler sample, or I/O wait, mapped to source. Profile in a run you do not report; profilers slow the work. Watch the load generator: if it saturates first, you measured it.
+
+Tune both sides the way production runs them: release build, production flags, pools, warm or cold caches as production sees them, same data and versions. A side left on defaults compares settings, not code. Do not pick a winner from an untuned run.
+
+Do the limits arithmetic. Removing a piece that takes 10% of the run makes it at most about 11% faster. A result past disk, network, or core limits measured something else: a cache, a no-op, or a bug.
+
+Count errors and check outputs are correct, not just present. Rejections are fast; timeouts and retries are slow.
+
+Alternate the sides A, B, A, B, at least five runs each. Report the median and the range.
+
+Next to a micro result, measure the path a user waits on, with realistic data and concurrency, and report the micro result as a share of it.
+
+Confirm the work happened inside the timed region. A generator nobody iterates, an unawaited promise, results the compiler or JIT discards, and timeouts all produce numbers for work that never ran.
+
+Lead with the verdict: faster, slower, no measurable difference, or inconclusive. Then the number with its unit, the run count, the range, and the limiter. Call it inconclusive when the limiter is unknown, a side ran untuned, or errors and "did the work happen" were not checked.
+
 ## Attempt ledger
 
 Write every attempt, including the reverts, in the PR description, or in the file the repo already uses for this. Do not create a new performance log unless asked.

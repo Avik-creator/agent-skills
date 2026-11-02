@@ -53,3 +53,10 @@ The health-check exclusion in `slo.md` is the library's own rule; the Workbook d
 2. Re-read the W3C Trace Context recommendation if the header name or the forwarding rule changes.
 3. Re-read the OpenTelemetry sampling page before adding any rate. Do not promote the page's example percentage into a default.
 4. Re-read both SRE Workbook chapters before changing the SLI types or the burn-rate table in `slo.md`.
+
+## Added 2026-11-02: benchmark checks (references/performance.md)
+
+From pstack `benchmark-checklist` and `principle-explain-the-number` (MIT, Copyright (c) 2026 Lauren Tan, in github.com/cursor/plugins):
+
+- Taken: write the claim before the run; read the script and check machine load; name the limiter and profile off the reported run; tune both sides as production; limits arithmetic; count errors and check correctness; alternate sides with median and range; micro result as a share of the user path; confirm work inside the timed region; verdict-first report with unit, run count, range, and limiter; inconclusive when limiter, tuning, or those checks are missing; one-line ballpark exemption that still counts errors and confirms the work ran.
+- Dropped: Cursor playbook names (Hillclimb, Perf issue, Opening a PR); Linux-only tool lists beyond `uptime`; cross-links to other pstack skills (including "Prove It Works" and the full checklist for evals); rank-sum / harness statistics detail; the "Opening a PR" one-primary-number rule. Those are product- or platform-specific, or already covered by the existing loop and attempt ledger.
